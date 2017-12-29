@@ -1,0 +1,34 @@
+﻿@model Studion.ViewModels.UsersProfileViewModel
+
+
+@{
+    ViewBag.Title = "ProfilePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.User.Username</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Level</th>
+            <th>Exam Board</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model.PublishedNotes)
+        {
+            <tr>
+                <td>@Html.ActionLink(note.Note.Title, "Display", "Notes", new { NoteID = note.Note.NoteID }, null)</td>
+                <td>@note.SubjectName</td>
+                <td>@note.LevelName</td>
+                <td>@note.ExamBoardName</td>
+                <td>@note.Rating</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

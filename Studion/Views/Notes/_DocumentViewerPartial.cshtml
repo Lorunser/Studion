@@ -1,0 +1,20 @@
+﻿@using GleamTech.Web.Mvc
+@using GleamTech.DocumentUltimate.Web
+@model System.String
+
+@{
+    var documentViewer = new DocumentViewer
+    {
+        Height = 800,
+        Document = Model
+    };
+}
+<html>
+<head>
+    @Html.RenderCss(documentViewer)
+    @Html.RenderJs(documentViewer)
+</head>
+<body>
+    @Html.RenderControl(documentViewer)
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "CacheSourceKey": "2qbo10",
+  "CachePdfKey": "2qbo10/2qbo10-1k3kk2s.pdf",
+  "CacheXpzKey": "2qbo10/2qbo10-10sjhjq.xpz",
+  "CacheInfoKey": "2qbo10/2qbo10-10sjhjq.json",
+  "CacheCopyKey": null,
+  "Document": "~/Documents/0.pdf",
+  "DocumentHandlerType": null,
+  "DocumentFileName": "0.pdf",
+  "InputOptions": {
+    "Format": "Pdf",
+    "Password": null
+  },
+  "PdfOutputOptions": {
+    "Watermarks": [],
+    "FastWebViewEnabled": false,
+    "Password": null,
+    "Format": "Pdf"
+  },
+  "XpzOutputOptions": {
+    "Password": "2qbo10",
+    "HighQualityEnabled": false,
+    "Format": "Xpz"
+  }
+}

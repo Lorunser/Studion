@@ -1,0 +1,35 @@
+﻿@model Studion.ViewModels.NotesDisplayViewModel
+
+@{
+    ViewBag.Title = "Display";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Note.Title</h2>
+<p>Author: @Html.ActionLink(Model.AuthorUsername, "ProfilePage", "Users", new { UserID = Model.Note.AuthorID }, null)</p>
+<p>Subject: @Model.SubjectName</p>
+<p>Level: @Model.LevelName</p>
+<p>Exam Board: @Model.ExamBoardName</p>
+<p>Rating: @Model.Rating</p>
+
+@{ 
+    string documentPath = "~/Documents/" + Model.Note.NoteID + ".pdf";
+}
+
+@Html.Partial("_DocumentViewerPartial", documentPath)
+
+<ul>
+    @if (Model.Comments.Count == 0)
+    {
+        <li>
+            <p>No Comments Made</p>
+        </li>
+    }
+    else
+    {
+        foreach (var comment in Model.Comments)
+        {
+            @Html.Partial("_CommentPartial", comment)
+        }
+    }
+</ul>
