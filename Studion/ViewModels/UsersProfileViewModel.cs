@@ -9,13 +9,13 @@ namespace Studion.ViewModels
 {
     public class UsersProfileViewModel
     {
-        public User User { get; set; }
+        public CustomUser User { get; set; }
 
         public List<NotesDisplayViewModel> PublishedNotes { get; set; }
 
         public void Default()
         {
-            User = new User();
+            User = new CustomUser();
             User.Default();
 
             PublishedNotes = new List<NotesDisplayViewModel>();

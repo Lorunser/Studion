@@ -20,6 +20,15 @@ namespace Studion.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        //addition to create new tables
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<ExamBoard> ExamBoards { get; set; }
+        public DbSet<Level> Levels { get; set; }
+        public DbSet<Note> Notes { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        //public DbSet<User> CustomUsers { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

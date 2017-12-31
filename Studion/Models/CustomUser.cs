@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Studion.Models
 {
-    public class User
+    public class CustomUser
     {
         public int UserID { get; set; }
 
