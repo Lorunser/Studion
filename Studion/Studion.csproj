@@ -215,9 +215,14 @@
     <Compile Include="Migrations\201712311444423_InitialMigration.Designer.cs">
       <DependentUpon>201712311444423_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712311713360_AddRelations.cs" />
+    <Compile Include="Migrations\201712311713360_AddRelations.Designer.cs">
+      <DependentUpon>201712311713360_AddRelations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\CustomUser.cs" />
     <Compile Include="Models\ExamBoard.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Level.cs" />
@@ -225,7 +230,6 @@
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\Subject.cs" />
-    <Compile Include="Models\CustomUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CommentViewModel.cs" />
@@ -311,6 +315,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201712311444423_InitialMigration.resx">
       <DependentUpon>201712311444423_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712311713360_AddRelations.resx">
+      <DependentUpon>201712311713360_AddRelations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

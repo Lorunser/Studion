@@ -11,6 +11,8 @@ namespace Studion.Models
         [Key]
         public int ExamBoardID { get; set; }
 
+        [Required]
+        [MaxLength(40)]
         public string ExamBoardName { get; set; }
 
         public void Default()

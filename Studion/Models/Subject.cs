@@ -11,6 +11,8 @@ namespace Studion.Models
         [Key]
         public int SubjectID { get; set; }
 
+        [Required]
+        [MaxLength(40)]
         public string SubjectName { get; set; }
 
         public void Default()

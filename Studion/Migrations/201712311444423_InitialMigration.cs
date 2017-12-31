@@ -17,9 +17,7 @@ namespace Studion.Migrations
                         CommentMessage = c.String(),
                         PostTime = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.CommentID)
-                .ForeignKey("dbo.Notes", t => t.NoteID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.CommenterID, cascadeDelete: true);
+                .PrimaryKey(t => t.CommentID);
             
             CreateTable(
                 "dbo.ExamBoards",

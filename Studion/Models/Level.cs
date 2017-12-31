@@ -11,6 +11,8 @@ namespace Studion.Models
         [Key]
         public int LevelID { get; set; }
 
+        [Required]
+        [MaxLength(40)]
         public string LevelName { get; set; }
 
         public void Default()
