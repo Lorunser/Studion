@@ -219,6 +219,22 @@
     <Compile Include="Migrations\201712311713360_AddRelations.Designer.cs">
       <DependentUpon>201712311713360_AddRelations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801021116453_SetIdentityColumns.cs" />
+    <Compile Include="Migrations\201801021116453_SetIdentityColumns.Designer.cs">
+      <DependentUpon>201801021116453_SetIdentityColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801021118233_AddExamBoards.cs" />
+    <Compile Include="Migrations\201801021118233_AddExamBoards.Designer.cs">
+      <DependentUpon>201801021118233_AddExamBoards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801021127263_AddLevels.cs" />
+    <Compile Include="Migrations\201801021127263_AddLevels.Designer.cs">
+      <DependentUpon>201801021127263_AddLevels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801021132284_AddSubjects.cs" />
+    <Compile Include="Migrations\201801021132284_AddSubjects.Designer.cs">
+      <DependentUpon>201801021132284_AddSubjects.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -318,6 +334,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712311713360_AddRelations.resx">
       <DependentUpon>201712311713360_AddRelations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801021116453_SetIdentityColumns.resx">
+      <DependentUpon>201801021116453_SetIdentityColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801021118233_AddExamBoards.resx">
+      <DependentUpon>201801021118233_AddExamBoards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801021127263_AddLevels.resx">
+      <DependentUpon>201801021127263_AddLevels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801021132284_AddSubjects.resx">
+      <DependentUpon>201801021132284_AddSubjects.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

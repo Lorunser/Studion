@@ -10,6 +10,7 @@ namespace Studion.Models
     public class Comment
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CommentID { get; set; }
 
         [ForeignKey("note")]

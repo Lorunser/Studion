@@ -10,6 +10,7 @@ namespace Studion.Models
     public class Note
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NoteID { get; set; }
 
         [ForeignKey("author")]
