@@ -5,26 +5,32 @@ using System.Web;
 using System.Web.Mvc;
 
 using Studion.ViewModels;
+using Studion.Models;
 
 namespace Studion.Controllers
 {
     public class UsersController : Controller
     {
-        // GET: Users/{UserID?}
-        [Route("Users/{UserID?}")]
-        public ActionResult ProfilePage(int? UserID)
+        //database initialisation
+        #region
+        private ApplicationDbContext _context;
+
+        public UsersController()
         {
-            UsersProfileViewModel upvm = new UsersProfileViewModel();
+            _context = new ApplicationDbContext();
+        }
 
-            if (UserID == null)
-            {
-                upvm.Default();
-            }
-            else
-            {
-                throw new NotImplementedException("Implement SQL queries to load user page");
-            }
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+        #endregion
 
+        // GET: Users/UserID
+        [Route("Users/UserID")]
+        public ActionResult ProfilePage(string UserID)
+        {
+            UsersProfileViewModel upvm = new UsersProfileViewModel(UserID, _context);
             return View(upvm);
         }
     }

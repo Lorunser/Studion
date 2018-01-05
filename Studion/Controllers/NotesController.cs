@@ -39,5 +39,11 @@ namespace Studion.Controllers
             var notes = _context.Notes.ToList();
             return View(notes);
         }
+
+        // GET: Notes/Upload
+        public ActionResult Upload()
+        {
+            return View();
+        }
     }
 }
