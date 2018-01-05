@@ -9,10 +9,12 @@ namespace Studion.Models
 {
     public class Note
     {
+        //primary key
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NoteID { get; set; }
 
+        //foreign keys and navigation properties
         [ForeignKey("author")]
         public string AuthorID { get; set; }
         public ApplicationUser author { get; set; }
@@ -29,19 +31,31 @@ namespace Studion.Models
         public int ExamBoardID { get; set; }
         public ExamBoard examBoard { get; set; }
 
+        //properties
         [MaxLength(40, ErrorMessage = "Title must be 40 characters or less")]
         public string Title { get; set; }
 
+        public int Downloads { get; set; }
+
         public DateTime UploadTime { get; set; }
 
-        public void Default()
+        //nav list properties
+        public List<Rating> ratings { get; set; }
+        public List<Comment> comments { get; set; }
+
+        //methods
+        public double GetAvRating()
         {
-            NoteID = 0;
-            AuthorID = "0";
-            SubjectID = 0;
-            LevelID = 0;
-            ExamBoardID = 0;
-            Title = "AQA A-Level Computing";
+            double sum = 0;
+            int n = ratings.Count();
+
+            for (int i = 0; i < n; i++)
+            {
+                sum += ratings[i].Stars;
+            }
+
+            double av = sum / n;
+            return av;
         }
     }
 }

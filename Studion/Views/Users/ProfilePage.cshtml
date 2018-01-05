@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.User.Username</h2>
+<h2>@Model.User.UserName</h2>
 
 <table>
     <thead>
@@ -15,6 +15,8 @@
             <th>Subject</th>
             <th>Level</th>
             <th>Exam Board</th>
+            <th>Uploaded</th>
+            <th>Downloads</th>
             <th>Rating</th>
         </tr>
     </thead>
@@ -22,11 +24,13 @@
         @foreach (var note in Model.PublishedNotes)
         {
             <tr>
-                <td>@Html.ActionLink(note.Note.Title, "Display", "Notes", new { NoteID = note.Note.NoteID }, null)</td>
-                <td>@note.SubjectName</td>
-                <td>@note.LevelName</td>
-                <td>@note.ExamBoardName</td>
-                <td>@note.Rating</td>
+                <td>@Html.ActionLink(note.Title, "Display", "Notes", new { NoteID = note.NoteID }, null)</td>
+                <td>@note.subject.SubjectName</td>
+                <td>@note.level.LevelName</td>
+                <td>@note.examBoard.ExamBoardName</td>
+                <td>@note.UploadTime</td>
+                <td>@note.Downloads</td>
+                <td>@note.GetAvRating()</td>
             </tr>
         }
     </tbody>

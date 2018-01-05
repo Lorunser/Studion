@@ -5,35 +5,39 @@ using System.Web;
 using System.Web.Mvc;
 
 using Studion.Models;
-using Studion.ViewModels;
 
 namespace Studion.Controllers
 {
     public class NotesController : Controller
     {
-        // GET: Notes/{NoteID}
-        // if NoteID not set then revert to default
-        [Route("Notes/{NoteID?}")]
-        public ActionResult Display(int? NoteID)
+        //database initialisation
+        #region
+        private ApplicationDbContext _context;
+
+        public NotesController()
         {
-            NotesDisplayViewModel ndvm = new NotesDisplayViewModel();
+            _context = new ApplicationDbContext();
+        }
 
-            if (NoteID == null)
-            {
-                ndvm.Default();
-            }
-            else
-            {
-                throw new NotImplementedException("Implement SQL queries to load notes page");
-            }
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+        #endregion
 
-            return View(ndvm);
+        // GET: Notes/{NoteID}
+        [Route("Notes/NoteID")]
+        public ActionResult Display(int NoteID)
+        {
+            Note note = _context.Notes.Single(n => n.NoteID == NoteID);
+            return View(note);
         }
 
         // GET: Notes/Search
         public ActionResult Search()
         {
-            throw new NotImplementedException();
+            var notes = _context.Notes.ToList();
+            return View(notes);
         }
     }
 }

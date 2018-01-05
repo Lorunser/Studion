@@ -9,19 +9,17 @@ namespace Studion.ViewModels
 {
     public class UsersProfileViewModel
     {
-        public CustomUser User { get; set; }
+        public string UserID { get; set; }
+        public string UserName { get; set; }
 
-        public List<NotesDisplayViewModel> PublishedNotes { get; set; }
+        public List<Note> PublishedNotes { get; set; }
 
-        public void Default()
+        public UsersProfileViewModel(string userID, ApplicationDbContext _context)
         {
-            User = new CustomUser();
-            User.Default();
+            this.UserID = userID;
+            this.UserName = _context.Users.Single(u => u.Id == this.UserID).UserName;
 
-            PublishedNotes = new List<NotesDisplayViewModel>();
-            NotesDisplayViewModel defaultNDVM = new NotesDisplayViewModel();
-            defaultNDVM.Default();
-            PublishedNotes.Add(defaultNDVM);
+            PublishedNotes = _context.Notes.Where(n => n.AuthorID == this.UserID).ToList();
         }
     }
 }

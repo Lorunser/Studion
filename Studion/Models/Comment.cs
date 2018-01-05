@@ -26,13 +26,5 @@ namespace Studion.Models
         public string CommentMessage { get; set; }
 
         public DateTime PostTime { get; set; }
-
-        public void Default()
-        {
-            CommentID = 0;
-            NoteID = 0;
-            CommenterID = "0";
-            CommentMessage = "One word, AMAZING";
-        }
     }
 }
