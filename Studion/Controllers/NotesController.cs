@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using Studion.Models;
+using System.Data.Entity; // get include working
 
 namespace Studion.Controllers
 {
@@ -36,8 +37,16 @@ namespace Studion.Controllers
         // GET: Notes/Search
         public ActionResult Search()
         {
-            var notes = _context.Notes.ToList();
-            return View(notes);
+            var notes = _context.Notes;
+
+            notes.Include(n => n.author);
+            notes.Include(n => n.subject);
+            notes.Include(n => n.level);
+            notes.Include(n => n.examBoard);
+            notes.Include(n => n.ratings);
+            var noteList = notes.ToList();
+
+            return View(noteList);
         }
 
         // GET: Notes/Upload
