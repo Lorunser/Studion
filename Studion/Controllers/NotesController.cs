@@ -37,16 +37,24 @@ namespace Studion.Controllers
         // GET: Notes/Search
         public ActionResult Search()
         {
-            var notes = _context.Notes;
+            var notes = _context.Notes
+                .Include(n => n.author)
+                .Include(n => n.subject)
+                .Include(n => n.level)
+                .Include(n => n.examBoard)
+                .Include(n => n.ratings)
+                .ToList();
 
+            /*
             notes.Include(n => n.author);
             notes.Include(n => n.subject);
             notes.Include(n => n.level);
             notes.Include(n => n.examBoard);
             notes.Include(n => n.ratings);
             var noteList = notes.ToList();
+            */
 
-            return View(noteList);
+            return View(notes);
         }
 
         // GET: Notes/Upload
