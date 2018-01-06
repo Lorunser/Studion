@@ -15,6 +15,11 @@ namespace Studion.ViewModels
         public List<ExamBoard> ExamBoardList { get; set; }
         public List<Level> LevelList { get; set; }
 
+        //form data
+        public string Title { get; set; }
+        public int SubjectID { get; set; }
+        public int ExamBoardID { get; set; }
+        public int LevelID { get; set; }
         public HttpPostedFile UploadedFile { get; set; }
 
         public NotesUploadViewModel(ApplicationDbContext _context)
