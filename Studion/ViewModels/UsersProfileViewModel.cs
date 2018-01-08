@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 using Studion.Models;
+using System.Data.Entity;
 
 namespace Studion.ViewModels
 {
@@ -19,7 +20,14 @@ namespace Studion.ViewModels
             this.UserID = userID;
             this.UserName = _context.Users.Single(u => u.Id == this.UserID).UserName;
 
-            PublishedNotes = _context.Notes.Where(n => n.AuthorID == this.UserID).ToList();
+            PublishedNotes = _context.Notes
+                .Include(n => n.author)
+                .Include(n => n.subject)
+                .Include(n => n.level)
+                .Include(n => n.examBoard)
+                .Include(n => n.ratings)
+                .Where(n => n.AuthorID == this.UserID)
+                .ToList();
         }
     }
 }

@@ -325,6 +325,7 @@
     <Content Include="Views\Users\ProfilePage.cshtml" />
     <Content Include="Views\Notes\Search.cshtml" />
     <Content Include="Views\Notes\Upload.cshtml" />
+    <Content Include="Views\Shared\_NoteTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

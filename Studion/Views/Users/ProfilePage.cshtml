@@ -6,33 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.User.UserName</h2>
+<h1>@Model.UserName</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Subject</th>
-            <th>Level</th>
-            <th>Exam Board</th>
-            <th>Uploaded</th>
-            <th>Downloads</th>
-            <th>Rating</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var note in Model.PublishedNotes)
-        {
-            <tr>
-                <td>@Html.ActionLink(note.Title, "Display", "Notes", new { NoteID = note.NoteID }, null)</td>
-                <td>@note.subject.SubjectName</td>
-                <td>@note.level.LevelName</td>
-                <td>@note.examBoard.ExamBoardName</td>
-                <td>@note.UploadTime</td>
-                <td>@note.Downloads</td>
-                <td>@note.GetAvRating()</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+<div class="carousel">
+    <h2>Notes published by @Model.UserName</h2>
+    @Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.PublishedNotes)
+</div>

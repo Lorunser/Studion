@@ -4,44 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Notes</h2>
+<h2>Search available notes</h2>
 
-@if (Model.Count == 0)
-{
-    <h3>No Results found that match your search criteria</h3>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Subject</th>
-                <th>Level</th>
-                <th>Exam Board</th>
-                <th>Uploaded</th>
-                <th>Downloads</th>
-                <th>Rating</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var note in Model)
-            {
-                <tr>
-                    <td>@Html.ActionLink(note.Title, "Display", "Notes", new { NoteID = note.NoteID }, null)</td>
-                    <td>@Html.ActionLink(note.author.UserName, "ProfilePage", "Users", new { UserID = note.author.Id }, null)</td>
-                    <td>@note.subject.SubjectName</td>
-                    <td>@note.level.LevelName</td>
-                    <td>@note.examBoard.ExamBoardName</td>
-                    <td>@note.UploadTime</td>
-                    <td>@note.Downloads</td>
-                    <td>@note.GetAvRating()</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<form>
+    <div class="form-group">
+        <!--Subject-->
+    </div>
+    <div class="form-group">
+        <!--Level-->
+    </div>
+    <div class="form-group">
+        <!--ExamBoard-->
+    </div>
+    <div class="form-group">
+        <!--Keywords-->
+    </div>
+</form>
+
+<!--Display available notes-->
+@Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model)
 
 
 
