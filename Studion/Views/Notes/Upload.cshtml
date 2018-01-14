@@ -33,15 +33,9 @@
     </div>
 
     <div class="form-group">
-        <label for="fileupload">PDF file (max 20 MB)</label>
-        <input id="fileupload" type="file" accept=".pdf" />
+        @Html.LabelFor(n => n.UploadedFile)
+        @Html.TextBoxFor(n => n.UploadedFile, new { type = "file", @class = "btn btn-default btn-file", accept = ".pdf"})
     </div>
 
-    <button type="submit" class="btn btn-primary">
-        Upload
-    </button>
+    <button type="submit" class="btn btn-primary">Upload</button>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

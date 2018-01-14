@@ -31,13 +31,13 @@ namespace Studion.ViewModels
         [Display(Name = "Level")]
         public int LevelID { get; set; }
 
-        public HttpPostedFile UploadedFile { get; set; }
-
-        //additional props for Note class
-        public DateTime UploadTime { get; set; }
-        public string AuthorID { get; set; }
+        [DataType(DataType.Upload)]
+        [Display(Name = "PDF File (Max 20 MB)")]
+        public HttpPostedFileBase UploadedFile { get; set; }
 
         //methods
+        public NotesUploadViewModel() { } // parameterless constructor for passing from form
+
         public NotesUploadViewModel(ApplicationDbContext _context)
         {
             SubjectList = _context.Subjects.ToList();
@@ -54,14 +54,19 @@ namespace Studion.ViewModels
         {
             Note = new Note();
 
+            Note.Title = this.Title;
             Note.AuthorID = userID; // need to figure out
             Note.SubjectID = this.SubjectID;
             Note.ExamBoardID = this.ExamBoardID;
             Note.LevelID = this.LevelID;
+
             Note.UploadTime = DateTime.Now;
+            Note.Downloads = 0;
 
             _context.Notes.Add(Note);
             _context.SaveChanges();
+
+            UploadedFile.SaveAs("~/Documents/" + Note.NoteID + ".pdf");
         }
     }
 }

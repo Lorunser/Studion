@@ -28,7 +28,7 @@ namespace Studion.Controllers
         }
         #endregion
 
-        // GET: Notes/{NoteID}
+        // GET: Notes/Display/{NoteID}
         [Route("Notes/Display/{NoteID}")]
         public ActionResult Display(int NoteID)
         {
@@ -70,7 +70,7 @@ namespace Studion.Controllers
         {
             var userID = User.Identity.GetUserId();
             viewModel.SaveToDatabase(_context, userID);
-            return RedirectToAction(); // fix
+            return RedirectToAction("Display", "Notes", new { NoteID = viewModel.Note.NoteID });
         }
     }
 }
