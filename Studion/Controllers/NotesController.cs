@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 
 using Studion.Models;
+using Studion.ViewModels;
 using System.Data.Entity; // get include working
+using Microsoft.AspNet.Identity;
 
 namespace Studion.Controllers
 {
@@ -59,7 +61,16 @@ namespace Studion.Controllers
         // GET: Notes/Upload
         public ActionResult Upload()
         {
-            return View();
+            var viewModel = new NotesUploadViewModel(_context);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(NotesUploadViewModel viewModel)
+        {
+            var userID = User.Identity.GetUserId();
+            viewModel.SaveToDatabase(_context, userID);
+            return RedirectToAction(); // fix
         }
     }
 }

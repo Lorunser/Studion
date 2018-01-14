@@ -8,7 +8,7 @@
 
 <h2>Upload New Note</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Notes"))
 {
     @Html.AntiForgeryToken()
 
@@ -18,16 +18,28 @@
     </div>
 
     <div class="form-group">
-        <!--Fix this
-            
-        Html.DropDownList(n => n.SubjectID, new SelectList("Subjects", "SubjectID", "SubjectName"))
-        -->    
+        @Html.LabelFor(n => n.SubjectID)
+        @Html.DropDownListFor(n => n.SubjectID, new SelectList(Model.SubjectList, "SubjectID", "SubjectName"), "--Select Subject--",new { @class = "form-control"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(n => n.LevelID)
+        @Html.DropDownListFor(n => n.LevelID, new SelectList(Model.LevelList, "LevelID", "LevelName"), "--Select Level--", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(n => n.ExamBoardID)
+        @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Exam Board--", new { @class = "form-control" })
     </div>
 
     <div class="form-group">
         <label for="fileupload">PDF file (max 20 MB)</label>
         <input id="fileupload" type="file" accept=".pdf" />
     </div>
+
+    <button type="submit" class="btn btn-primary">
+        Upload
+    </button>
 }
 
 <div>

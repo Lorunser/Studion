@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Studion.Models
 {
-    public class ExamBoard
+    public class ExamBoard : IComparable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,10 +17,10 @@ namespace Studion.Models
         [MaxLength(40)]
         public string ExamBoardName { get; set; }
 
-        public void Default()
+        public int CompareTo(object obj)
         {
-            ExamBoardID = 0;
-            ExamBoardName = "AQA";
+            ExamBoard other = obj as ExamBoard;
+            return this.ExamBoardName.CompareTo(other.ExamBoardName);
         }
     }
 }

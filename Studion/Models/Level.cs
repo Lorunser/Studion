@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Studion.Models
 {
-    public class Level
+    public class Level : IComparable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,10 +17,10 @@ namespace Studion.Models
         [MaxLength(40)]
         public string LevelName { get; set; }
 
-        public void Default()
+        public int CompareTo(object obj)
         {
-            LevelID = 0;
-            LevelName = "A-Level";
+            Level other = obj as Level;
+            return this.LevelName.CompareTo(other.LevelName);
         }
     }
 }

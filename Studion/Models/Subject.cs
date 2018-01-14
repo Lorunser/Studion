@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Studion.Models
 {
-    public class Subject
+    public class Subject : IComparable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,10 +17,10 @@ namespace Studion.Models
         [MaxLength(40)]
         public string SubjectName { get; set; }
 
-        public void Default()
+        public int CompareTo(object obj)
         {
-            SubjectID = 0;
-            SubjectName = "Computing";
+            Subject other = obj as Subject;
+            return this.SubjectName.CompareTo(other.SubjectName);
         }
     }
 }
