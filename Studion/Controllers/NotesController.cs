@@ -66,10 +66,13 @@ namespace Studion.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(NotesUploadViewModel viewModel)
+        public ActionResult Create(NotesUploadViewModel viewModel, HttpPostedFileBase upload)
         {
             var userID = User.Identity.GetUserId();
-            viewModel.SaveToDatabase(_context, userID);
+            string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+
+            viewModel.SaveToDatabase(_context, userID, upload, pathToSubDir);
+
             return RedirectToAction("Display", "Notes", new { NoteID = viewModel.Note.NoteID });
         }
     }

@@ -6,6 +6,7 @@ using Studion.Models;
 using System.ComponentModel.DataAnnotations;
 using Studion.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.SqlServer;
 
 namespace Studion.ViewModels
 {
@@ -31,10 +32,6 @@ namespace Studion.ViewModels
         [Display(Name = "Level")]
         public int LevelID { get; set; }
 
-        [DataType(DataType.Upload)]
-        [Display(Name = "PDF File (Max 20 MB)")]
-        public HttpPostedFileBase UploadedFile { get; set; }
-
         //methods
         public NotesUploadViewModel() { } // parameterless constructor for passing from form
 
@@ -50,10 +47,11 @@ namespace Studion.ViewModels
             LevelList.Sort();
         }
 
-        public void SaveToDatabase(ApplicationDbContext _context, string userID)
+        public void SaveToDatabase(ApplicationDbContext _context, string userID, HttpPostedFileBase upload, string pathToSubDir)
         {
             Note = new Note();
 
+            //assign properties
             Note.Title = this.Title;
             Note.AuthorID = userID; // need to figure out
             Note.SubjectID = this.SubjectID;
@@ -62,11 +60,17 @@ namespace Studion.ViewModels
 
             Note.UploadTime = DateTime.Now;
             Note.Downloads = 0;
+           
 
+            //add to database and save
             _context.Notes.Add(Note);
             _context.SaveChanges();
 
-            UploadedFile.SaveAs("~/Documents/" + Note.NoteID + ".pdf");
+            //generate filename, must come after saving to db as then allocated id
+            string path = pathToSubDir + Note.NoteID + ".pdf";
+
+            //save file
+            upload.SaveAs(path);
         }
     }
 }
