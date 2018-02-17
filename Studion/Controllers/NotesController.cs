@@ -32,16 +32,8 @@ namespace Studion.Controllers
         [Route("Notes/Display/{NoteID}")]
         public ActionResult Display(int NoteID)
         {
-            Note note = _context.Notes
-                .Include(n => n.author)
-                .Include(n => n.subject)
-                .Include(n => n.level)
-                .Include(n => n.examBoard)
-                .Include(n => n.ratings)
-                .Include(n => n.comments)
-                .Single(n => n.NoteID == NoteID);
-
-            return View(note);
+            NotesDisplayViewModel ndvm = new NotesDisplayViewModel(NoteID, _context);
+            return View(ndvm);
         }
 
         // GET: Notes/Search

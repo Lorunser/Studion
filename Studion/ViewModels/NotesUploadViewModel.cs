@@ -36,7 +36,7 @@ namespace Studion.ViewModels
         public bool Editing { get; set; }
 
         //methods
-        public NoteFormViewModel(bool editing = false) { } // parameterless constructor for passing from form
+        public NoteFormViewModel() { } // parameterless constructor for passing from form
 
         public NoteFormViewModel(ApplicationDbContext _context)
         {
