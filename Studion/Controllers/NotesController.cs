@@ -61,6 +61,14 @@ namespace Studion.Controllers
         // GET: Notes/Upload
         public ActionResult Upload()
         {
+            // code to prevent unlogged user uploading a note
+            var currentUrl = this.Url.Action("Upload", "Notes", new { }, this.Request.Url.Scheme);
+            var userID = User.Identity.GetUserId();
+            if (userID == null)
+            {
+                return RedirectToAction("Login", "Account", new { returnUrl = currentUrl});
+            }
+
             var viewModel = new NotesUploadViewModel(_context);
             return View(viewModel);
         }
