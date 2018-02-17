@@ -324,7 +324,7 @@
     <Content Include="Views\Notes\_DocumentViewerPartial.cshtml" />
     <Content Include="Views\Users\ProfilePage.cshtml" />
     <Content Include="Views\Notes\Search.cshtml" />
-    <Content Include="Views\Notes\Upload.cshtml" />
+    <Content Include="Views\Notes\NoteForm.cshtml" />
     <Content Include="Views\Shared\_NoteTable.cshtml" />
   </ItemGroup>
   <ItemGroup>

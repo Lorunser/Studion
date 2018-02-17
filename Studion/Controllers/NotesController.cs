@@ -69,12 +69,12 @@ namespace Studion.Controllers
                 return RedirectToAction("Login", "Account", new { returnUrl = currentUrl});
             }
 
-            var viewModel = new NotesUploadViewModel(_context);
-            return View(viewModel);
+            var viewModel = new NoteFormViewModel(_context);
+            return View("NoteForm", viewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(NotesUploadViewModel viewModel, HttpPostedFileBase upload)
+        public ActionResult Save(NoteFormViewModel viewModel, HttpPostedFileBase upload)
         {
             var userID = User.Identity.GetUserId();
             string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
@@ -82,6 +82,23 @@ namespace Studion.Controllers
             viewModel.SaveToDatabase(_context, userID, upload, pathToSubDir);
 
             return RedirectToAction("Display", "Notes", new { NoteID = viewModel.Note.NoteID });
+        }
+
+        // GET: Notes/Edit
+        public ActionResult Edit(int NoteID)
+        {
+            var note = _context.Notes.SingleOrDefault(n => n.NoteID == NoteID);
+
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new NoteFormViewModel(_context);
+            viewModel.Editing = true;
+            viewModel.Note = note;
+
+            return View("NoteForm", viewModel); 
         }
     }
 }
