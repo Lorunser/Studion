@@ -5,6 +5,7 @@ using System.Web;
 
 using Studion.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity; // get include working
 
 namespace Studion.ViewModels
 {

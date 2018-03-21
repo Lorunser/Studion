@@ -6,7 +6,7 @@
 }
 
 <h2>@Model.Note.Title</h2>
-<p>Author: @Html.ActionLink(Model.Note.author.UserName, "ProfilePage", "Users", new { UserID = Model.author.Id }, null)</p>
+<p>Author: @Html.ActionLink(Model.Note.author.UserName, "ProfilePage", "Users", new { UserID = Model.Note.author.Id }, null)</p>
 <p>Subject: @Model.Note.subject.SubjectName</p>
 <p>Level: @Model.Note.level.LevelName</p>
 <p>Exam Board: @Model.Note.examBoard.ExamBoardName</p>
@@ -38,9 +38,13 @@
 {
     @Html.AntiForgeryToken()
 
+    <div hidden="hidden">
+        @Html.HiddenFor(n => n.Note)
+    </div>
+
     <div class="form-group">
-        @Html.LabelFor(n => n.comment)
-        @Html.TextBoxFor(n => n.Title, new { @class = "form-control" })
+        @Html.LabelFor(n => n.CommentMessage)
+        @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control" })
     </div>
 
     <button type="submit" class="btn btn-primary">Write Comment</button>
