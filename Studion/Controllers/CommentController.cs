@@ -31,8 +31,8 @@ namespace Studion.Controllers
         [HttpPost]
         public ActionResult Save(NotesDisplayViewModel ndvm)
         {
-            // code to prevent unlogged user uploading a note
-            var currentUrl = this.Url.Action("Upload", "Notes", new { }, this.Request.Url.Scheme);
+            // code to prevent unlogged user saving a comment
+            var currentUrl = this.Url.Action("Display", "Notes", new { NoteID = ndvm.Note.NoteID }, this.Request.Url.Scheme);
             var userID = User.Identity.GetUserId();
             if (userID == null)
             {

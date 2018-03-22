@@ -12,6 +12,8 @@
 <p>Exam Board: @Model.Note.examBoard.ExamBoardName</p>
 <p>Rating: @Model.Note.GetAvRating()</p>
 
+<p>Your Rating: @Html.Partial("~/Views/Shared/_RatingPartial.cshtml")</p>
+
 @{ 
     string documentPath = "~/Documents/" + Model.Note.NoteID + ".pdf";
 }
