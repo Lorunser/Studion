@@ -38,9 +38,8 @@
 {
     @Html.AntiForgeryToken()
 
-    <div hidden="hidden">
-        @Html.HiddenFor(n => n.Note)
-    </div>
+    //TODO : get passing of Note object working
+    @Html.HiddenFor(n => n.Note.NoteID)
 
     <div class="form-group">
         @Html.LabelFor(n => n.CommentMessage)

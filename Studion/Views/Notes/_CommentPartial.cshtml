@@ -1,6 +1,7 @@
-﻿@model Studion.ViewModels.NotesDisplayViewModel.CommentViewModel
+﻿@model Studion.Models.Comment
 
 <li>
-    <h3>Commenter: @Model.CommenterUsername</h3>
-    <p>@Model.Comment.CommentMessage</p>
+    <p>@Html.ActionLink(Model.commenter.UserName, "ProfilePage", "Users", new { UserID = Model.commenter.Id }, null)</p>
+    <p>@Model.PostTime.ToShortDateString()</p>
+    <p>@Model.CommentMessage</p>
 </li>

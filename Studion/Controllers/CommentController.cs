@@ -41,7 +41,7 @@ namespace Studion.Controllers
 
 
             ndvm.SaveToDatabase(_context, userID);
-            return View();
+            return RedirectToAction("Display", "Notes", new { NoteID = ndvm.Note.NoteID });
         }
     }
 }
