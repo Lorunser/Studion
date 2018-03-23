@@ -6,13 +6,24 @@
 }
 
 <h2>@Model.Note.Title</h2>
-<p>Author: @Html.ActionLink(Model.Note.author.UserName, "ProfilePage", "Users", new { UserID = Model.Note.author.Id }, null)</p>
-<p>Subject: @Model.Note.subject.SubjectName</p>
-<p>Level: @Model.Note.level.LevelName</p>
-<p>Exam Board: @Model.Note.examBoard.ExamBoardName</p>
+<table>
+    <tr>
+        <th>Author</th>
+        <th>Subject</th>
+        <th>Level</th>
+        <th>Exam Board</th>
+    </tr>
+    <tr>
+        <td>@Html.ActionLink(Model.Note.author.UserName, "ProfilePage", "Users", new { UserID = Model.Note.author.Id }, null)</td>
+        <td>@Model.Note.subject.SubjectName</td>
+        <td>@Model.Note.level.LevelName</td>
+        <td>@Model.Note.examBoard.ExamBoardName</td>
+    </tr>
+</table>
+
 <p>Rating: @Model.Note.GetAvRating()</p>
 
-<p>Your Rating: @Html.Partial("~/Views/Shared/_RatingPartial.cshtml")</p>
+@Html.Partial("~/Views/Shared/_RatingPartial.cshtml")
 
 @{
     string documentPath = "~/Documents/" + Model.Note.NoteID + ".pdf";
