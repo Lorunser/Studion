@@ -48,10 +48,16 @@ namespace Studion.Models
 
     public class LoginViewModel
     {
+        /*
         [Required]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
+        */
+
+        [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -71,8 +77,8 @@ namespace Studion.Models
 
         //addition
         [Required]
-        [Display(Name = "UserName")]
-        public string UserName { set; get; }
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
 
         [Required]
