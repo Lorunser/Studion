@@ -68,9 +68,22 @@ namespace Studion.Controllers
         [HttpPost]
         public ActionResult Save(NoteFormViewModel viewModel, HttpPostedFileBase upload)
         {
-            var userID = User.Identity.GetUserId();
-            string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+            // validation
+            if(ModelState.IsValid == false)
+            {
+                return View("NoteForm", viewModel);
+            }
 
+            // code to prevent unlogged user uploading a note
+            var currentUrl = this.Url.Action("Upload", "Notes", new { }, this.Request.Url.Scheme);
+            var userID = User.Identity.GetUserId();
+            if (userID == null)
+            {
+                return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
+            }
+
+
+            string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
             viewModel.SaveToDatabase(_context, userID, upload, pathToSubDir);
 
             return RedirectToAction("Display", "Notes", new { NoteID = viewModel.Note.NoteID });

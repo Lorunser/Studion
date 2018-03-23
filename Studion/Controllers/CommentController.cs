@@ -39,6 +39,11 @@ namespace Studion.Controllers
                 return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
             }
 
+            //validation
+            if (ModelState.IsValid == false)
+            {
+                return View("Display", "Notes", ndvm);
+            }
 
             ndvm.SaveToDatabase(_context, userID);
             return RedirectToAction("Display", "Notes", new { NoteID = ndvm.Note.NoteID });
