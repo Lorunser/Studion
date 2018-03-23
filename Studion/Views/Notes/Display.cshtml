@@ -14,11 +14,11 @@
 
 <p>Your Rating: @Html.Partial("~/Views/Shared/_RatingPartial.cshtml")</p>
 
-@{ 
+@{
     string documentPath = "~/Documents/" + Model.Note.NoteID + ".pdf";
 }
 
-@Html.Partial("_DocumentViewerPartial", documentPath)
+@Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", documentPath)
 
 <ul>
     @if (Model.Note.comments.Count == 0)
@@ -31,22 +31,9 @@
     {
         foreach (var comment in Model.Note.comments)
         {
-            @Html.Partial("_CommentPartial", comment)
+            @Html.Partial("~/Views/Comment/_CommentPartial.cshtml", comment)
         }
     }
 </ul>
 
-@using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-
-    //TODO : get passing of Note object working
-    @Html.HiddenFor(n => n.Note.NoteID)
-
-    <div class="form-group">
-        @Html.LabelFor(n => n.CommentMessage)
-        @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control" })
-    </div>
-
-    <button type="submit" class="btn btn-primary">Write Comment</button>
-}
+@Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model)

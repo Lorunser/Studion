@@ -31,6 +31,8 @@ namespace Studion.Controllers
         [HttpPost]
         public ActionResult Save(NotesDisplayViewModel ndvm)
         {
+            int noteID = ndvm.Note.NoteID;
+
             // code to prevent unlogged user saving a comment
             var currentUrl = this.Url.Action("Display", "Notes", new { NoteID = ndvm.Note.NoteID }, this.Request.Url.Scheme);
             var userID = User.Identity.GetUserId();
@@ -42,11 +44,11 @@ namespace Studion.Controllers
             //validation
             if (ModelState.IsValid == false)
             {
-                return View("Display", "Notes", ndvm);
+                return RedirectToAction("Display", "Notes", new { NoteID = noteID });
             }
 
             ndvm.SaveToDatabase(_context, userID);
-            return RedirectToAction("Display", "Notes", new { NoteID = ndvm.Note.NoteID });
+            return RedirectToAction("Display", "Notes", new { NoteID = noteID });
         }
     }
 }

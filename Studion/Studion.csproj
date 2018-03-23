@@ -355,17 +355,17 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Notes\Display.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
-    <Content Include="Views\Notes\_CommentPartial.cshtml" />
+    <Content Include="Views\Comment\_CommentPartial.cshtml" />
     <Content Include="Views\Notes\_DocumentViewerPartial.cshtml" />
     <Content Include="Views\Users\ProfilePage.cshtml" />
     <Content Include="Views\Notes\Search.cshtml" />
     <Content Include="Views\Notes\NoteForm.cshtml" />
     <Content Include="Views\Shared\_NoteTable.cshtml" />
     <Content Include="Views\Shared\_RatingPartial.cshtml" />
+    <Content Include="Views\Comment\_CommentFormPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
