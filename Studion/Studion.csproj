@@ -280,6 +280,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\NotesDisplayViewModel.cs" />
+    <Compile Include="ViewModels\NotesSearchViewModel.cs" />
     <Compile Include="ViewModels\NotesUploadViewModel.cs" />
     <Compile Include="ViewModels\UsersProfileViewModel.cs" />
   </ItemGroup>

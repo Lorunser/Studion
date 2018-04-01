@@ -1,4 +1,4 @@
-﻿@model IList<Studion.Models.Note>
+﻿@model Studion.ViewModels.NotesSearchViewModel
 @{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,23 +6,30 @@
 
 <h2>Search available notes</h2>
 
-<form>
+@using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
     <div class="form-group">
-        <!--Subject-->
+        @Html.LabelFor(n => n.SubjectID)
+        @Html.DropDownListFor(n => n.SubjectID, new SelectList(Model.SubjectList, "SubjectID", "SubjectName"), "--Select Subject--", new { @class = "form-control" })
     </div>
+
     <div class="form-group">
-        <!--Level-->
+        @Html.LabelFor(n => n.LevelID)
+        @Html.DropDownListFor(n => n.LevelID, new SelectList(Model.LevelList, "LevelID", "LevelName"), "--Select Level--", new { @class = "form-control" })
     </div>
+
     <div class="form-group">
-        <!--ExamBoard-->
+        @Html.LabelFor(n => n.ExamBoardID)
+        @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Exam Board--", new { @class = "form-control" })
     </div>
-    <div class="form-group">
-        <!--Keywords-->
-    </div>
-</form>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+}
 
 <!--Display available notes-->
-@Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model)
+@Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.NotesList)
 
 
 

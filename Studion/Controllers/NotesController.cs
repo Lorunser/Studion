@@ -37,17 +37,19 @@ namespace Studion.Controllers
         }
 
         // GET: Notes/Search
+        // first time called
         public ActionResult Search()
         {
-            var notes = _context.Notes
-                .Include(n => n.author)
-                .Include(n => n.subject)
-                .Include(n => n.level)
-                .Include(n => n.examBoard)
-                .Include(n => n.ratings)
-                .ToList();
+            var nsvm = new NotesSearchViewModel(_context);
+            return View(nsvm);
+        }
 
-            return View(notes);
+        //second time called
+        [HttpPost]
+        public ActionResult Search(NotesSearchViewModel nsvm)
+        {
+            nsvm.PerformSearch(_context);
+            return View(nsvm);
         }
 
         // GET: Notes/Upload
