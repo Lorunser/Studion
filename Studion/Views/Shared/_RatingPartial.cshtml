@@ -1,2 +1,21 @@
-﻿<label for="input-1" class="control-label">Rate This</label>
-<input id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="1">
+﻿<script>
+
+        $(document).ready(function () {
+            $("#input-21b").on("rating.change", function (event, value, caption) {
+
+                var ratingValue = $('#<%=hdfRatingValue.ClientID%>').val();
+                ratingValue = value;
+                alert(ratingValue);
+            });
+        });
+</script>
+
+<form>
+    <div class="row">
+        <div class="col-lg-12">
+            <input id="input-21a" value="0" type="number" class="rating" min=0 max=5 step=0.5 data-size="sm">
+        </div>
+    </div>
+
+    <asp:HiddenField ID="hdfRatingValue"/>   
+</form>
