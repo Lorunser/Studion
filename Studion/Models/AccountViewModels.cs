@@ -49,6 +49,7 @@ namespace Studion.Models
     public class LoginViewModel
     {
         /*
+         * removed to allow users to sign in username rather than email
         [Required]
         [Display(Name = "Email")]
         [EmailAddress]
