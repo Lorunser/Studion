@@ -36,6 +36,35 @@ namespace Studion.Controllers
             return View(ndvm);
         }
 
+        // GET: Notes/Download/{NoteID}
+        [Route("Notes/Download/{NoteID}")]
+        public ActionResult Download(int NoteID)
+        {
+            //returns file for download
+            string filename = NoteID + ".pdf";
+            string filepath = AppDomain.CurrentDomain.BaseDirectory + "/Documents/" + filename;
+            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+            string contentType = MimeMapping.GetMimeMapping(filepath);
+
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = filename,
+                Inline = false
+            };
+
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+
+            //if user is pressing download button rather than google docs then increment download counter
+            if(Request.IsAuthenticated)
+            {
+                var note = _context.Notes.Single(n => n.NoteID == NoteID);
+                note.Downloads++; // increment
+                _context.SaveChanges();
+            }
+
+            return File(filedata, contentType);
+        }
+
         // GET: Notes/Search
         // first time called
         public ActionResult Search()

@@ -34,12 +34,11 @@
     @Html.Partial("~/Views/Shared/_RatingPartial.cshtml");
 
     //document viewer
-    string documentPath = "/Documents/" + Model.Note.NoteID + ".pdf";
-    Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", documentPath);
+    @Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", Model.Note.NoteID);
 
     //comment list
-    Html.Partial("~/Views/Comment/_CommentPartial.cshtml", Model.Note.comments);
+    @Html.Partial("~/Views/Comment/_CommentPartial.cshtml", Model.Note.comments);
 
     //submit comment
-    Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model);
+    @Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model);
 }

@@ -1,8 +1,24 @@
-﻿@model System.String
+﻿@model System.Int32
 
 @{
+    int noteID = Model;
+
     //does not work for localhost as localhost is not routable but will work when hosted online
-    string url = "https://docs.google.com/gview?url=" + Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "") + Model +"&embedded=true";
+    string url = "https://docs.google.com/gview?url=" +
+        Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "") +
+        "/Notes/Download/"+ noteID + "&embedded=true";
+
+    if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("Download", "Notes", new { NoteID = noteID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <button type="submit" class="btn btn-primary">Download</button>
+        }
+    }
+    else
+    {
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Log in to Download</a>
+    }
 }
 
 <iframe src="@url"
