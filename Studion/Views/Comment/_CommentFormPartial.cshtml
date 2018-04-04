@@ -1,16 +1,26 @@
 ﻿@model Studion.ViewModels.NotesDisplayViewModel
 
+@{ 
+    if (Request.IsAuthenticated) // true if user is logged in
+    {
+        using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            Html.AntiForgeryToken();
+            Html.HiddenFor(n => n.Note.NoteID);
 
-@using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(n => n.Note.NoteID)
+            <div class="form-group">
+                @Html.LabelFor(n => n.CommentMessage)
+                @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control" })
+                @Html.ValidationMessageFor(n => n.CommentMessage)
+            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(n => n.CommentMessage)
-        @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control" })
-        @Html.ValidationMessageFor(n => n.CommentMessage)
-    </div>
+            <button type="submit" class="btn btn-primary">Write Comment</button>
+        }
+    }
 
-    <button type="submit" class="btn btn-primary">Write Comment</button>
+    else
+    {
+        <p>You must be logged in to comment</p>
+        <a class="btn" href="@Url.Action("Login", "Account")">Log in</a>
+    }
 }
