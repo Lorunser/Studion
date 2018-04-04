@@ -1,19 +1,36 @@
-﻿@model Studion.Models.Comment
+﻿@model IList<Studion.Models.Comment>
 
-<div class="card border-primary mb-3">
-    <div class="card-body">
-        <h5 class="card-title">
-            @Html.ActionLink(Model.commenter.UserName, "ProfilePage", "Users", new { UserID = Model.commenter.Id }, null)
-        </h5>
+@{ 
+    if (Model.Count == 0)
+    {
+        <div class="card border-primary mb-3">
+            <h5 class="card-title">
+                No Comments Made
+            </h5>
+        </div>
+    }
 
-        <p class="card-text">
-            @Model.CommentMessage
-        </p>
+    else
+    {
+        foreach (var comment in Model)
+        {
+            <div class="card border-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @Html.ActionLink(comment.commenter.UserName, "ProfilePage", "Users", new { UserID = comment.commenter.Id }, null)
+                    </h5>
 
-        <p class="card-text">
-            <small class="text-muted">
-                @Model.PostTime.ToShortDateString()
-            </small>
-        </p>
-    </div>
-</div>
+                    <p class="card-text">
+                        @comment.CommentMessage
+                    </p>
+
+                    <p class="card-text">
+                        <small class="text-muted">
+                            @comment.PostTime.ToShortDateString()
+                        </small>
+                    </p>
+                </div>
+            </div>
+        }
+    }
+}

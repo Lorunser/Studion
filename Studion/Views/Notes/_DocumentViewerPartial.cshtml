@@ -1,20 +1,10 @@
-﻿@using GleamTech.Web.Mvc
-@using GleamTech.DocumentUltimate.Web
-@model System.String
+﻿@model System.String
 
 @{
-    var documentViewer = new DocumentViewer
-    {
-        Height = 800,
-        Document = Model
-    };
+    //does not work for localhost as localhost is not routable but will work when hosted online
+    string url = "https://docs.google.com/gview?url=" + Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "") + Model +"&embedded=true";
 }
-<html>
-<head>
-    @Html.RenderCss(documentViewer)
-    @Html.RenderJs(documentViewer)
-</head>
-<body>
-    @Html.RenderControl(documentViewer)
-</body>
-</html>
+
+<iframe src="@url"
+        style="width: 100%; height: 80%">
+</iframe>

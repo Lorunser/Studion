@@ -27,28 +27,19 @@
     </table>
 </div>
 
-@Html.Partial("~/Views/Shared/_RatingPartial.cshtml")
+
 
 @{
-    string documentPath = "~/Documents/" + Model.Note.NoteID + ".pdf";
+    //ratings
+    @Html.Partial("~/Views/Shared/_RatingPartial.cshtml");
+
+    //document viewer
+    string documentPath = "/Documents/" + Model.Note.NoteID + ".pdf";
+    Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", documentPath);
+
+    //comment list
+    Html.Partial("~/Views/Comment/_CommentPartial.cshtml", Model.Note.comments);
+
+    //submit comment
+    Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model);
 }
-
-@Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", documentPath)
-
-<ul>
-    @if (Model.Note.comments.Count == 0)
-    {
-        <li>
-            <p>No Comments Made</p>
-        </li>
-    }
-    else
-    {
-        foreach (var comment in Model.Note.comments)
-        {
-            @Html.Partial("~/Views/Comment/_CommentPartial.cshtml", comment)
-        }
-    }
-</ul>
-
-@Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model)
