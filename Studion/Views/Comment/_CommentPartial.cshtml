@@ -1,15 +1,21 @@
 ﻿@model Studion.Models.Comment
 
-<div class="card border-primary mb-3" style="max-width: 20rem;">
-    <div class="card-header">
-        <h5 class="mb-1">
-            @Html.ActionLink(Model.commenter.UserName, "ProfilePage", "Users", new { UserID = Model.commenter.Id }, null)
-        </h5>
-        <small>
-            @Model.PostTime.ToShortDateString()
-        </small>
-    </div>
-    <div class="card-body">
-        <p class="card-text">@Model.CommentMessage</p>
+<div class="row">
+    <div class="card border-primary mb-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                @Html.ActionLink(Model.commenter.UserName, "ProfilePage", "Users", new { UserID = Model.commenter.Id }, null)
+            </h5>
+
+            <p class="card-text">
+                @Model.CommentMessage
+            </p>
+
+            <p class="card-text">
+                <small class="text-muted">
+                    @Model.PostTime.ToShortDateString()
+                </small>
+            </p>
+        </div>
     </div>
 </div>
