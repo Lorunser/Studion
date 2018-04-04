@@ -1,7 +1,5 @@
-﻿@model System.Int32
-
-@{
-    int noteID = Model;
+﻿@{
+    int noteID = (int) Model; // supply noteID as integer
 
     //does not work for localhost as localhost is not routable but will work when hosted online
     string url = "https://docs.google.com/gview?url=" +
