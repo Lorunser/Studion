@@ -5,5 +5,5 @@
 	b - Contact
 	c - About
 	d - Landing page
-4) Implement 3rd party sign-n
-5) Configure recovery
+4) Implement 3rd party sign-in
+5) Configure recovery settings and email

@@ -27,7 +27,8 @@ namespace Studion
                       "~/Scripts/star-rating.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap-minty.css",
+                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-theme.css",
                       "~/Content/bootstrap-sortable.css",
                       "~/Content/site.css",
                       "~/Content/star-rating.css"));

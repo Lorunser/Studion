@@ -1,21 +1,9 @@
-﻿<script>
+﻿<input id="input-id" type="text" class="rating" data-size="lg">
 
-        $(document).ready(function () {
-            $("#input-21b").on("rating.change", function (event, value, caption) {
+<script>
+    // initialize with defaults
+    $("#input-id").rating();
 
-                var ratingValue = $('#<%=hdfRatingValue.ClientID%>').val();
-                ratingValue = value;
-                alert(ratingValue);
-            });
-        });
+    // with plugin options (do not attach the CSS class "rating" to your input if using this approach)
+    $("#input-id").rating({ 'size': 'lg' });
 </script>
-
-<form>
-    <div class="row">
-        <div class="col-lg-12">
-            <input id="input-21a" value="0" type="number" class="rating" min=0 max=5 step=0.5 data-size="sm">
-        </div>
-    </div>
-
-    <asp:HiddenField ID="hdfRatingValue"/>   
-</form>
