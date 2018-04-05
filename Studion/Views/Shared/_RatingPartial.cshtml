@@ -1,9 +1,28 @@
-﻿<input id="input-id" type="text" class="rating" data-size="lg">
+﻿@model Studion.ViewModels.NotesDisplayViewModel
 
-<script>
-    // initialize with defaults
-    $("#input-id").rating();
+@if (Request.IsAuthenticated)
+{
+    @using (Html.BeginForm("Save", "Rating", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
-    // with plugin options (do not attach the CSS class "rating" to your input if using this approach)
-    $("#input-id").rating({ 'size': 'lg' });
-</script>
+        <div class="form-group">
+            @Html.LabelFor(n => n.Rating)
+            @Html.TextBoxFor(n => n.Rating, new { @class = "form-control rating" })
+        </div>
+
+        @Html.HiddenFor(n => n.Note.NoteID);
+
+        <button type="submit" class="btn btn-primary">Submit rating</button>
+    }
+
+    <script>
+        // initialize with defaults
+        $("#input-id").rating();
+    </script>
+}
+else
+{
+    <p>You must be logged in to rate</p>
+    <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Log in</a>
+}

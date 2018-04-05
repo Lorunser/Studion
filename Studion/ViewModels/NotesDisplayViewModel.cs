@@ -18,6 +18,9 @@ namespace Studion.ViewModels
         [Display(Name = "Write comment")]
         public string CommentMessage { get; set; }
 
+        [Required]
+        public int Rating { get; set; }
+
         //constructor
         public NotesDisplayViewModel() { } // parameterless constructor for passing from form
 
