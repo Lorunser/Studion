@@ -1,0 +1,9 @@
+﻿1) Implement ratings
+2) Tidy up tables - DONE
+3) Add content to
+	a - Home
+	b - Contact
+	c - About
+	d - Landing page
+4) Implement 3rd party sign-n
+5) Configure recovery

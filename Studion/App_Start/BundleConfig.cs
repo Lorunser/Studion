@@ -22,10 +22,13 @@ namespace Studion
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
+                      "~/Scripts/moment.min.js",
+                      "~/Scripts/bootstrap-sortable.js",
                       "~/Scripts/star-rating.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-minty.css",
+                      "~/Content/bootstrap-sortable.css",
                       "~/Content/site.css",
                       "~/Content/star-rating.css"));
 
