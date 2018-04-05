@@ -1,28 +1,29 @@
 ﻿@using Microsoft.AspNet.Identity
+
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav navbar-right navbar-form" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Manage")">Manage account</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        </li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="@Url.Action("Index", "Manage")">Signed in as @User.Identity.GetUserName()</a>
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </li>
+        </ul>           
     }
 }
 else
 {
-    <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="@Url.Action("Register", "Account")">Register</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Login", "Account")">Log in</a>
+        <li>
+            <a href="@Url.Action("Login", "Account")">Log in</a>
         </li>
     </ul>
 }

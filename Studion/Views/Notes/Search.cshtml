@@ -6,7 +6,7 @@
 
 <h2>Search available notes</h2>
 
-@using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" , @class = "form-inline"}))
 {
     @Html.AntiForgeryToken()
 
