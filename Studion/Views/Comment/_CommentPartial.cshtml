@@ -3,10 +3,12 @@
 @{ 
     if (Model.Count == 0)
     {
-        <div class="card border-primary mb-3">
-            <h5 class="card-title">
-                No Comments Made
-            </h5>
+        <div class="row panel panel-primary">
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    No Comments Made
+                </h5>
+            </div>
         </div>
     }
 
@@ -14,21 +16,15 @@
     {
         foreach (var comment in Model)
         {
-            <div class="card border-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        @Html.ActionLink(comment.commenter.UserName, "ProfilePage", "Users", new { UserID = comment.commenter.Id }, null)
+            <div class="row panel panel-primary">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @(Html.ActionLink(comment.commenter.UserName, "ProfilePage", "Users", new { UserID = comment.commenter.Id }, null)) - @(comment.PostTime.ToShortDateString())
                     </h5>
+                </div>
 
-                    <p class="card-text">
-                        @comment.CommentMessage
-                    </p>
-
-                    <p class="card-text">
-                        <small class="text-muted">
-                            @comment.PostTime.ToShortDateString()
-                        </small>
-                    </p>
+                <div class="panel-body">
+                    @comment.CommentMessage
                 </div>
             </div>
         }
