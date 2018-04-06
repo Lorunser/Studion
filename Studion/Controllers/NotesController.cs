@@ -33,6 +33,27 @@ namespace Studion.Controllers
         public ActionResult Display(int NoteID)
         {
             NotesDisplayViewModel ndvm = new NotesDisplayViewModel(NoteID, _context);
+
+            //code to load rating
+            if (Request.IsAuthenticated)
+            {
+                var raterID = User.Identity.GetUserId();
+                int stars;
+
+                try
+                {
+                    Rating rating = _context.Ratings.Single(r => r.NoteID == NoteID && r.RaterID == raterID);
+                    stars = rating.Stars;
+                }
+                catch
+                {
+                    // no rating made
+                    stars = 0;
+                }
+
+                ndvm.Rating = stars;
+            }
+
             return View(ndvm);
         }
 

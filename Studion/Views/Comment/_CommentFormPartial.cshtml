@@ -5,8 +5,8 @@
     {
         using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            Html.AntiForgeryToken();
-            Html.HiddenFor(n => n.Note.NoteID);
+            @Html.AntiForgeryToken();
+            @Html.HiddenFor(n => n.Note.NoteID);
 
             <div class="form-group">
                 @Html.LabelFor(n => n.CommentMessage)

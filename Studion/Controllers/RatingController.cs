@@ -31,10 +31,11 @@ namespace Studion.Controllers
         [HttpPost]
         public ActionResult Save(NotesDisplayViewModel ndvm)
         {
+            var noteID = ndvm.Note.NoteID;
+
             if (Request.IsAuthenticated)
             {
                 int stars = ndvm.Rating;
-                var noteID = ndvm.Note.NoteID;
                 var raterID = User.Identity.GetUserId();
 
                 var ratingList = _context.Ratings.Where(r => r.NoteID == noteID && r.RaterID == raterID).ToList();
@@ -59,7 +60,7 @@ namespace Studion.Controllers
                 _context.SaveChanges();
             }
 
-            return new EmptyResult();
+            return RedirectToAction("Display", "Notes", new { NoteID = noteID});
         }
     }
 }

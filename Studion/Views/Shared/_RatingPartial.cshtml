@@ -1,28 +1,45 @@
 ﻿@model Studion.ViewModels.NotesDisplayViewModel
 
-@if (Request.IsAuthenticated)
-{
-    @using (Html.BeginForm("Save", "Rating", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+<div class="row">
+    <!--Average rating-->
+    <div class="col-md-6">
+        <button class="btn btn-primary center-block">Average rating</button>
 
-        <div class="form-group">
-            @Html.LabelFor(n => n.Rating)
-            @Html.TextBoxFor(n => n.Rating, new { @class = "form-control rating" })
+        <div class="row col-md-offset-3">
+            <input type="number" class="rating" min="0" max="5" data-size="sm" step="0.1" value="@Model.Note.GetAvRating()" readonly />
         </div>
+    </div>
 
-        @Html.HiddenFor(n => n.Note.NoteID);
+    <!--Your rating-->
+    <div class="col-md-6">
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("Save", "Rating", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(n => n.Note.NoteID)
 
-        <button type="submit" class="btn btn-primary">Submit rating</button>
-    }
+                <button type="submit" class="btn btn-primary center-block">Submit your rating</button>
 
-    <script>
-        // initialize with defaults
-        $("#input-id").rating();
-    </script>
-}
-else
-{
-    <p>You must be logged in to rate</p>
-    <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Log in</a>
-}
+                <div class="form-group row col-md-offset-3">
+                    @Html.TextBoxFor(n => n.Rating, new
+               {
+                   type = "number",
+                   @class = "rating",
+                   min = 0,
+                   max = 5,
+                   step = 1,
+                   @data_size = "sm",
+               })
+                </div>
+            }
+        }
+        else
+        {
+            <a class="btn btn-primary center-block" href="@Url.Action("Login", "Account")">Log in to rate</a>
+            <div class="row col-md-offset-3">
+                <input type="number" class="rating" min="0" max="5" step="1" data-size="sm" disabled />
+            </div>
+        }
+    </div>
+</div>
