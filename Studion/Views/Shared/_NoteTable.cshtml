@@ -5,7 +5,7 @@
         @if (Model.Count() == 0)
         {
             <tr>
-                <td colspan="10">No Record's found.</td>
+                <td colspan="10">No notes found</td>
             </tr>
         }
         else
@@ -33,7 +33,7 @@
                         <td>@note.examBoard.ExamBoardName</td>
                         <td>@note.UploadTime.ToShortDateString()</td>
                         <td>@note.Downloads</td>
-                        <td>@note.GetAvRating()</td>
+                        <td>@(note.GetAvRating()) / 5</td>
                     </tr>
                 }
             </tbody>

@@ -6,30 +6,38 @@
 
 <h2>Search available notes</h2>
 
-@using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" , @class = "form-inline"}))
+@using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(n => n.SubjectID)
-        @Html.DropDownListFor(n => n.SubjectID, new SelectList(Model.SubjectList, "SubjectID", "SubjectName"), "--Select Subject--", new { @class = "form-control" })
-    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(n => n.SubjectID)
+            @Html.DropDownListFor(n => n.SubjectID, new SelectList(Model.SubjectList, "SubjectID", "SubjectName"), "--Select Subject--", new { @class = "form-control" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(n => n.LevelID)
-        @Html.DropDownListFor(n => n.LevelID, new SelectList(Model.LevelList, "LevelID", "LevelName"), "--Select Level--", new { @class = "form-control" })
-    </div>
+        <div class="form-group col-md-4">
+            @Html.LabelFor(n => n.LevelID)
+            @Html.DropDownListFor(n => n.LevelID, new SelectList(Model.LevelList, "LevelID", "LevelName"), "--Select Level--", new { @class = "form-control" })
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(n => n.ExamBoardID)
-        @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Exam Board--", new { @class = "form-control" })
+        <div class="form-group col-md-4">
+            @Html.LabelFor(n => n.ExamBoardID)
+            @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Exam Board--", new { @class = "form-control" })
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-primary">Search</button>
+    
+    <div class="row">
+        <button type="submit" class="btn btn-primary btn-lg center-block">Search</button>
+    </div>
 }
 
+<div style="height: 15px;"></div>
+
 <!--Display available notes-->
-@Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.NotesList)
+<div class="row">
+    @Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.NotesList)
+</div>
 
 
 

@@ -371,12 +371,11 @@
     <Content Include="Views\Notes\Search.cshtml" />
     <Content Include="Views\Notes\NoteForm.cshtml" />
     <Content Include="Views\Shared\_NoteTable.cshtml" />
-    <Content Include="Views\Shared\_RatingPartial.cshtml" />
+    <Content Include="Views\Rating\_RatingPartial.cshtml" />
     <Content Include="Views\Comment\_CommentFormPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Rating\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
