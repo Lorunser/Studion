@@ -13,9 +13,10 @@
             <button type="submit" class="btn btn-primary">Download</button>
         }
     }
+
     else
     {
-        <a class="btn btn-primary" href="@Url.Action("Login", "Account")">Log in to Download</a>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to Download</a>
     }
 }
 
