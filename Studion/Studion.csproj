@@ -369,7 +369,7 @@
     <Content Include="Views\Notes\_DocumentViewerPartial.cshtml" />
     <Content Include="Views\Users\ProfilePage.cshtml" />
     <Content Include="Views\Notes\Search.cshtml" />
-    <Content Include="Views\Notes\NoteForm.cshtml" />
+    <Content Include="Views\Notes\Upload.cshtml" />
     <Content Include="Views\Shared\_NoteTable.cshtml" />
     <Content Include="Views\Rating\_RatingPartial.cshtml" />
     <Content Include="Views\Comment\_CommentFormPartial.cshtml" />

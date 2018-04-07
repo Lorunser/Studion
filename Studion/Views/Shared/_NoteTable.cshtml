@@ -40,3 +40,57 @@
         }
     </table>
 </div>
+
+
+<link rel="stylesheet"
+      href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript"
+        src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+
+<div class="table-responsive">
+    <table id="myTable" class="display table">
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="10">No notes found</td>
+            </tr>
+        }
+        else
+        {
+            <thead>
+                <tr>
+                    <th data-defaultsign="AZ">Title</th>
+                    <th data-defaultsort="disabled">Author</th>
+                    <th data-defaultsign="AZ">Subject</th>
+                    <th data-defaultsign="AZ">Level</th>
+                    <th data-defaultsign="AZ">Exam Board</th>
+                    <th data-defaultsign="month">Uploaded</th>
+                    <th data-firstsort="desc">Downloads</th>
+                    <th data-firstsort="desc">Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var note in Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(note.Title, "Display", "Notes", new { NoteID = note.NoteID }, null)</td>
+                        <td>@Html.ActionLink(note.author.UserName, "ProfilePage", "Users", new { UserID = note.author.Id }, null)</td>
+                        <td>@note.subject.SubjectName</td>
+                        <td>@note.level.LevelName</td>
+                        <td>@note.examBoard.ExamBoardName</td>
+                        <td>@note.UploadTime.ToShortDateString()</td>
+                        <td>@note.Downloads</td>
+                        <td>@(note.GetAvRating()) / 5</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+
+
+<script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+</script>

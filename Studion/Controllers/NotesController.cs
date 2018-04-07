@@ -103,10 +103,11 @@ namespace Studion.Controllers
         }
 
         // GET: Notes/Upload
+        // first time called
         public ActionResult Upload()
         {
             // code to prevent unlogged user uploading a note
-            var currentUrl = this.Url.Action("Upload", "Notes", new { }, this.Request.Url.Scheme);
+            var currentUrl = Request.Url.AbsolutePath;
             var userID = User.Identity.GetUserId();
             if (userID == null)
             {
@@ -114,48 +115,29 @@ namespace Studion.Controllers
             }
 
             var viewModel = new NoteFormViewModel(_context);
-            return View("NoteForm", viewModel);
+
+            return View(viewModel);
         }
 
+        //on form submit
         [HttpPost]
-        public ActionResult Save(NoteFormViewModel viewModel, HttpPostedFileBase upload)
+        public ActionResult Upload(NoteFormViewModel nfvm, HttpPostedFileBase upload = null)
         {
-            // validation
-            if(ModelState.IsValid == false)
+            if (Request.IsAuthenticated)
             {
-                return View("NoteForm", viewModel);
+                if (ModelState.IsValid)
+                {
+                    string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+                    nfvm.SaveToDatabase(_context, User.Identity.GetUserId(), upload, pathToSubDir);
+                    return RedirectToAction("Display", "Notes", new { NoteID = nfvm.Note.NoteID });
+                }
+
+                nfvm.GenLists(_context); // must be called to repopulate lists
+                return View(nfvm);
             }
 
-            // code to prevent unlogged user uploading a note
-            var currentUrl = this.Url.Action("Upload", "Notes", new { }, this.Request.Url.Scheme);
-            var userID = User.Identity.GetUserId();
-            if (userID == null)
-            {
-                return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
-            }
-
-
-            string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
-            viewModel.SaveToDatabase(_context, userID, upload, pathToSubDir);
-
-            return RedirectToAction("Display", "Notes", new { NoteID = viewModel.Note.NoteID });
-        }
-
-        // GET: Notes/Edit
-        public ActionResult Edit(int NoteID)
-        {
-            var note = _context.Notes.SingleOrDefault(n => n.NoteID == NoteID);
-
-            if (note == null)
-            {
-                return HttpNotFound();
-            }
-
-            var viewModel = new NoteFormViewModel(_context);
-            viewModel.Editing = true;
-            viewModel.Note = note;
-
-            return View("NoteForm", viewModel); 
+            var currentUrl = Request.Url.AbsolutePath;
+            return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
         }
     }
 }

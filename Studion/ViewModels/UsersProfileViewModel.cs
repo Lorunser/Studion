@@ -15,6 +15,8 @@ namespace Studion.ViewModels
 
         public List<Note> PublishedNotes { get; set; }
 
+        public List<Note> RatedNotes { get; set; }
+
         public UsersProfileViewModel(string userID, ApplicationDbContext _context)
         {
             this.UserID = userID;

@@ -21,6 +21,8 @@ namespace Studion.ViewModels
 
         //form data
         [Display(Name = "Title")]
+        [Required] //int are implicitly required
+        [MaxLength(80)]
         public string Title { get; set; }
 
         [Display(Name = "Subject")]
@@ -35,10 +37,16 @@ namespace Studion.ViewModels
         // view data
         public bool Editing { get; set; }
 
-        //methods
+        //constructor
         public NoteFormViewModel() { } // parameterless constructor for passing from form
 
         public NoteFormViewModel(ApplicationDbContext _context)
+        {
+            GenLists(_context);
+        }
+
+        //methods
+        public void GenLists(ApplicationDbContext _context)
         {
             SubjectList = _context.Subjects.ToList();
             SubjectList.Sort();
@@ -48,51 +56,32 @@ namespace Studion.ViewModels
 
             LevelList = _context.Levels.ToList();
             LevelList.Sort();
-        }
+        }       
 
         public void SaveToDatabase(ApplicationDbContext _context, string userID, HttpPostedFileBase upload, string pathToSubDir)
         {
-            if (Note == null)
-            {
-                // adding new note
-                Note = new Note();
+            // adding new note
+            Note = new Note();
 
-                //assign properties
-                Note.Title = this.Title;
-                Note.AuthorID = userID; // need to figure out
-                Note.SubjectID = this.SubjectID;
-                Note.ExamBoardID = this.ExamBoardID;
-                Note.LevelID = this.LevelID;
+            // assign properties
+            Note.Title = this.Title;
+            Note.AuthorID = userID;
+            Note.SubjectID = this.SubjectID;
+            Note.ExamBoardID = this.ExamBoardID;
+            Note.LevelID = this.LevelID;
 
-                Note.UploadTime = DateTime.Now;
-                Note.Downloads = 0;
+            Note.UploadTime = DateTime.Now;
+            Note.Downloads = 0;
 
+            //add to database and save
+            _context.Notes.Add(Note);
+            _context.SaveChanges();
 
-                //add to database and save
-                _context.Notes.Add(Note);
-                _context.SaveChanges();
+            //generate filename, must come after saving to db as then allocated id
+            string path = pathToSubDir + Note.NoteID + ".pdf";
 
-                //generate filename, must come after saving to db as then allocated id
-                string path = pathToSubDir + Note.NoteID + ".pdf";
-
-                //save file
-                upload.SaveAs(path);
-            }
-            else
-            {
-                // updating existing note
-                var noteInDB = Note;
-
-                // assign relevant properties
-                // cannot edit: AuthorID, UploadTime, Downloads, pdf file
-                noteInDB.Title = this.Title;
-                noteInDB.SubjectID = this.SubjectID;
-                noteInDB.ExamBoardID = this.ExamBoardID;
-                noteInDB.LevelID = this.LevelID;
-
-                // save changes
-                _context.SaveChanges();
-            }            
+            //save file
+            upload.SaveAs(path);          
         }
     }
 }
