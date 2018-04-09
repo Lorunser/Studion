@@ -58,7 +58,7 @@ else
     </div>
 
     <div class="form-group">
-        @Html.Label("Upload File")
+        @Html.Label("Upload File (pdf max 20 MB)")
         <div class="row">
             <div class="col-md-4">
                 <input type="file" id="UploadFile" name="upload" required />
@@ -67,5 +67,5 @@ else
     </div>
     <hr />
 
-    <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+    <button type="submit" accept=".pdf" class="btn btn-primary btn-lg">Upload</button>
 }
