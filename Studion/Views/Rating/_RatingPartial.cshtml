@@ -2,16 +2,33 @@
 
 <div class="row">
     <!--Average rating-->
-    <div class="col-md-6">
+    <div class="col-md-4">
         <button class="btn btn-primary center-block">Average rating</button>
 
-        <div class="row col-md-offset-3">
-            <input type="number" class="rating" min="0" max="5" data-size="sm" step="0.1" value="@Model.Note.GetAvRating()" readonly />
+        <div class="row col-md-offset-2">
+            <input type="number" class="rating" min="0" max="5" data-size="xs" step="0.1" value="@Model.Note.GetAvRating()" readonly />
         </div>
     </div>
 
+    <!--Download button-->
+    <div class="col-md-4">
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("Download", "Notes", new { NoteID = Model.Note.NoteID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <button type="submit" class="btn btn-primary center-block btn-lg">Download</button>
+            }
+        }
+
+        else
+        {
+            <a class="btn btn-primary center-block btn-lg" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to Download</a>
+        }
+    </div>
+    
+
     <!--Your rating-->
-    <div class="col-md-6">
+    <div class="col-md-4">
         @if (Request.IsAuthenticated)
         {
             using (Html.BeginForm("Save", "Rating", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
@@ -21,7 +38,7 @@
 
                 <button type="submit" class="btn btn-primary center-block">Submit your rating</button>
 
-                <div class="form-group row col-md-offset-3">
+                <div class="form-group row col-md-offset-2">
                     @Html.TextBoxFor(n => n.Rating, new
                {
                    type = "number",
@@ -29,7 +46,7 @@
                    min = 0,
                    max = 5,
                    step = 1,
-                   @data_size = "sm",
+                   @data_size = "xs",
                })
                 </div>
             }
@@ -37,8 +54,8 @@
         else
         {
             <a class="btn btn-primary center-block" href="@Url.Action("Login", "Account")">Log in to rate</a>
-            <div class="row col-md-offset-3">
-                <input type="number" class="rating" min="0" max="5" step="1" data-size="sm" disabled />
+            <div class="row col-md-offset-2">
+                <input type="number" class="rating" min="0" max="5" step="1" data-size="xs" disabled />
             </div>
         }
     </div>

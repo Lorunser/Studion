@@ -1,25 +1,15 @@
-﻿@{
-    int noteID = (int) Model; // supply noteID as integer
+﻿<div class="row">
+    @{
+        int noteID = (int)Model; // supply noteID as integer
 
-    //does not work for localhost as localhost is not routable but will work when hosted online
-    string url = "https://docs.google.com/gview?url=" +
-        Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "") +
-        "/Notes/Download/"+ noteID + "&embedded=true";
-
-    if (Request.IsAuthenticated)
-    {
-        using (Html.BeginForm("Download", "Notes", new { NoteID = noteID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <button type="submit" class="btn btn-primary center-block">Download</button>
-        }
+        //does not work for localhost as localhost is not routable but will work when hosted online
+        string url = "https://docs.google.com/gview?url=" +
+            Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "") +
+            "/Notes/Download/" + noteID + "&embedded=true";
     }
+</div>
 
-    else
-    {
-        <a class="btn btn-primary center-block" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to Download</a>
-    }
-}
-
-<iframe src="@url"
-        style="width: 100%; height: 80%">
-</iframe>
+<div class="row container">
+    <iframe src="@url"
+            style="width: 100%; height: 80%"></iframe>
+</div>
