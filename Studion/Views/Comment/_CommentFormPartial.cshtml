@@ -1,26 +1,29 @@
 ﻿@model Studion.ViewModels.NotesDisplayViewModel
 
-@{ 
-    if (Request.IsAuthenticated) // true if user is logged in
-    {
-        using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken();
-            @Html.HiddenFor(n => n.Note.NoteID);
+<ul class="list-group">
+        @{
+            if (Request.IsAuthenticated) // true if user is logged in
+            {
+                using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data", @class="form-inline" }))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.HiddenFor(n => n.Note.NoteID)
 
-            <div class="form-group">
-                @Html.LabelFor(n => n.CommentMessage)
-                @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control" })
-                @Html.ValidationMessageFor(n => n.CommentMessage)
-            </div>
+                <li class="list-group-item">
+                    <div class="col-md-offset-4">
+                        @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control", style = "width: 100%;" })
+                        @Html.ValidationMessageFor(n => n.CommentMessage)
 
-            <button type="submit" class="btn btn-primary">Write Comment</button>
+                        <button type="submit" class="btn btn-primary">Write Comment</button>
+                    </div>                  
+                </li>
+                }
+            }
+
+            else
+            {
+                <p>You must be logged in to comment</p>
+                <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in</a>
+            }
         }
-    }
-
-    else
-    {
-        <p>You must be logged in to comment</p>
-        <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in</a>
-    }
-}
+</ul>
