@@ -1,4 +1,4 @@
-﻿1) Implement ratings
+﻿1) Implement ratings - DONE
 2) Tidy up tables - DONE
 3) Add content to
 	a - Home

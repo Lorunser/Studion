@@ -58,13 +58,14 @@ else
     </div>
 
     <div class="form-group">
-        @Html.Label("Upload File", new { @class = "control-label col-md-2" })
-        <br />
-        <div class="col-md-10">
-            <input type="file" id="UploadFile" name="upload" required/>
+        @Html.Label("Upload File")
+        <div class="row">
+            <div class="col-md-4">
+                <input type="file" id="UploadFile" name="upload" required />
+            </div>
         </div>
     </div>
     <hr />
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary btn-lg">Upload</button>
 }
