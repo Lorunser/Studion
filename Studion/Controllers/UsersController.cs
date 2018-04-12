@@ -26,8 +26,8 @@ namespace Studion.Controllers
         }
         #endregion
 
-        // GET: Users/UserID
-        [Route("Users/UserID")]
+        // GET: Users/{UserID}
+        [Route("Users/{UserID}")]
         public ActionResult ProfilePage(string UserID)
         {
             UsersProfileViewModel upvm = new UsersProfileViewModel(UserID, _context);

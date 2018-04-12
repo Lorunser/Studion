@@ -6,9 +6,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Model.UserName</h1>
-
-<div class="carousel">
-    <h2>Notes published by @Model.UserName</h2>
-    @Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.PublishedNotes)
+<div class="jumbotron">
+    <h2>Profile page for <b>@Model.UserName</b></h2>
+    <div class="row">
+        <table class="table">
+            <tr>
+                <th>Notes published</th>
+                <th>Notes rated</th>
+                <th>Comments made</th>
+                <th>Total downloads</th>
+                <th>Average note rating</th>
+            </tr>
+            <tr>
+                <td>@Model.NumNotesPublished</td>
+                <td>@Model.NumNotesRated</td>
+                <td>@Model.NumCommentsMade</td>
+                <td>@Model.TotalDownloads</td>
+                <td>@Model.AverageNoteRating</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <h3 class="col-md-offset-4 col-md-4">
+            <span class="label label-primary center-block">
+                <b>@Model.GetUserScore()</b> user score
+            </span>
+        </h3>
+    </div>
 </div>
+
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="active"><a href="#published" aria-controls="published" role="tab" data-toggle="tab">Published Notes</a></li>
+        <li role="presentation"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="published">
+            <div class="row container">
+                @Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.PublishedNotes)
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="bio">
+            <h3>Feature coming soon</h3>
+        </div>
+    </div>
+
+</div>
+
+
