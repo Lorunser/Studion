@@ -3,10 +3,10 @@
 <div class="row">
     <!--Average rating-->
     <div class="col-md-4">
-        <button class="btn btn-primary center-block">Average rating</button>
+        <button class="btn btn-primary center-block" disabled>Average rating</button>
 
         <div class="row col-md-offset-2">
-            <input type="number" class="rating" min="0" max="5" data-size="xs" step="0.1" value="@Model.Note.GetAvRating()" readonly />
+            <input type="number" class="rating" min="0" max="5" data-size="xs" step="0.1" value="@Model.Note.GetAvRating()" readonly/>
         </div>
     </div>
 
@@ -22,10 +22,12 @@
 
         else
         {
-            <a class="btn btn-primary center-block btn-lg" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to Download</a>
+            <form action="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">
+                <button class="btn btn-primary center-block btn-lg">Log in to download</button>
+            </form>
         }
     </div>
-    
+
 
     <!--Your rating-->
     <div class="col-md-4">
@@ -53,7 +55,10 @@
         }
         else
         {
-            <a class="btn btn-primary center-block" href="@Url.Action("Login", "Account")">Log in to rate</a>
+            <form action="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">
+                <button class="btn btn-primary center-block btn-lg">Log in to rate</button>
+            </form>
+
             <div class="row col-md-offset-2">
                 <input type="number" class="rating" min="0" max="5" step="1" data-size="xs" disabled />
             </div>
