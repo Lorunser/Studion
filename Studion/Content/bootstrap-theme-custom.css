@@ -38,11 +38,14 @@ h2, .h2 {
 
 .navbar-inverse .navbar-brand {
     color: #fff;
+    border-bottom: 3px solid transparent;
+    transition: border-bottom ease-in-out .15s;
+    padding-bottom: 10px;
 }
 
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
-    color: #95B23A;
-    background-color: transparent;
+    border-bottom: 3px solid #fff;
+    color: #fff;
 }
 
 a, .btn-link {
@@ -178,4 +181,8 @@ table a:not(.btn), .table a:not(.btn) {
   font-size: 30px;
   line-height: 1.3333333;
   border-radius: 10px;
+}
+
+a:hover {
+    color: #95B23A;
 }
