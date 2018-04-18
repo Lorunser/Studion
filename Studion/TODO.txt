@@ -1,9 +1,2 @@
-﻿1) Implement ratings - DONE
-2) Tidy up tables - DONE
-3) Add content to
-	a - Home
-	b - Contact
-	c - About
-	d - Landing page
-4) Implement 3rd party sign-in
-5) Configure recovery settings and email
+﻿1) Implement 3rd party sign-in
+2) Configure recovery settings and email

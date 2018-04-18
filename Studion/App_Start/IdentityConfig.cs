@@ -51,11 +51,10 @@ namespace Studion
             };
 
             // Configure validation logic for passwords
+            // edited to remove requirements for non-alphanumeric
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
