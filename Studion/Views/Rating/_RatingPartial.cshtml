@@ -5,8 +5,8 @@
     <div class="col-md-4">
         <button class="btn btn-primary center-block" disabled>Average rating</button>
 
-        <div class="row col-md-offset-2">
-            <input type="number" class="rating" min="0" max="5" data-size="xs" step="0.1" value="@Model.Note.GetAvRating()" readonly/>
+        <div class="row col-md-offset-1">
+            <input id="display-rating" value="@Model.Note.GetAvRating()" />
         </div>
     </div>
 
@@ -40,15 +40,10 @@
 
                 <button type="submit" class="btn btn-primary center-block">Submit your rating</button>
 
-                <div class="form-group row col-md-offset-2">
+                <div class="form-group row col-md-offset-1">
                     @Html.TextBoxFor(n => n.Rating, new
                {
-                   type = "number",
-                   @class = "rating",
-                   min = 0,
-                   max = 5,
-                   step = 1,
-                   @data_size = "xs",
+                   id = "user-rating"
                })
                 </div>
             }
@@ -59,9 +54,26 @@
                 <button class="btn btn-primary center-block btn-lg">Log in to rate</button>
             </form>
 
-            <div class="row col-md-offset-2">
-                <input type="number" class="rating" min="0" max="5" step="1" data-size="xs" disabled />
+            <div class="row col-md-offset-1">
+                <input id="user-rating" />
             </div>
         }
     </div>
 </div>
+
+<script>
+    $('#display-rating').rating({
+        displayOnly: true,
+        min: '0',
+        max: '5',
+        value: '@Model.Note.GetAvRating()'
+    });
+
+    $('#user-rating').rating({
+        min: '0',
+        max: '5',
+        step: '1',
+        showCaption: false,
+        showClear: false
+    });
+</script>
