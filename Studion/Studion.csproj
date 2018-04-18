@@ -304,6 +304,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme-custom.css" />
+    <None Include="Properties\PublishProfiles\beta.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\loading.gif" />
     <Content Include="Scripts\bootstrap-sortable.js" />
