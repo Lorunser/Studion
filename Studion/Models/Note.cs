@@ -60,7 +60,7 @@ namespace Studion.Models
             }
 
             double av = sum / n;
-            return av;
+            return Math.Round(av, 2);
         }
     }
 }
