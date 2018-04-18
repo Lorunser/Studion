@@ -30,11 +30,11 @@ namespace Studion
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/bootstrap-theme.css",
                       "~/Content/bootstrap-sortable.css",
                       "~/Content/site.css",
                       "~/Content/star-rating.css",
-                      "~/Content/jquery.dataTables.min.css")); // addition
+                      "~/Content/jquery.dataTables.min.css",
+                      "~/Content/bootstrap-theme-custom.css")); // addition
 
             //added star rating css and js files to bootstrap bundles
         }

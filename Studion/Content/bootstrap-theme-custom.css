@@ -1,0 +1,169 @@
+﻿body {
+    color: #52656B;
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-bottom: 30px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #3B4B50;
+}
+
+h2, .h2 {
+    font-size: 25px;
+}
+
+.body-content {
+    padding-top: 20px;
+}
+
+.navbar-inverse {
+    background-color: #00674C;
+    border-color: #00674C;
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    border-bottom: 3px solid transparent;
+    transition: border-bottom ease-in-out .15s;
+    padding-bottom: 10px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    border-bottom: 3px solid #fff;
+    color: #fff;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #95B23A;
+    background-color: transparent;
+}
+
+a, .btn-link {
+    color: #F3525C;
+}
+.btn {
+    border-radius: 10px;
+    text-transform: none;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.btn-primary {
+    color: #FFFFFF;
+    background-color: #F3525C;
+    border: 0;
+    padding: 8px 20px;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #FFFFFF;
+    background-color: #95B23A;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    color: #ffffff;
+    background-color: #52656B;
+    border-color: #52656B;
+}
+
+.pagination > li > a, .pager > li > a, .pagination > li > span, .pager > li > span {
+    text-transform: none;
+}
+
+table a:not(.btn), .table a:not(.btn) {
+    text-decoration: none;
+}
+
+.form-control {
+    height: 41px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: border-color ease-in-out .10s, box-shadow ease-in-out .15s;
+    -moz-transition: border-color ease-in-out .10s, box-shadow ease-in-out .15s;
+    -ms-transition: border-color ease-in-out .10s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .10s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .10s, box-shadow ease-in-out .15s;
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 2px solid #95B23A;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    color: #fff;
+    background-color: #00674C;
+    border-color: #00674C;
+}
+
+.twitter-typeahead {
+    width: 300px;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #F3525C;
+}
+
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu {
+  width: 422px;
+  margin: 12px 0;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #52656B;
+  background-color: #95B23A;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #52656B;
+  background-color: #95B23A;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.tt-container {
+    position: relative;
+}
