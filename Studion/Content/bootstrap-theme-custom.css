@@ -167,3 +167,15 @@ table a:not(.btn), .table a:not(.btn) {
 .tt-container {
     position: relative;
 }
+
+/*
+    custome classes
+*/
+
+.btn-xl,
+.btn-group-xl > .btn {
+  padding: 10px 16px;
+  font-size: 30px;
+  line-height: 1.3333333;
+  border-radius: 10px;
+}

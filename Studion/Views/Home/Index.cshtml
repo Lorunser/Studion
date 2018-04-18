@@ -1,31 +1,53 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Studion</h1>
+    <p class="lead">Studion is a peer-to-peer note sharing service for all your exam troubles</p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Browse notes</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Studion lets you browse and review the content others have uploaded.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-primary" href="@Url.Action("Search", "Notes")">Get browsing &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Upload your own</h2>
+        <p>
+            Want to share your knowledge? Upload your notes for others to see.
+        </p>
+        <p><a class="btn btn-primary" href="@Url.Action("Notes", "Upload")">Upload notes &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        @if (Request.IsAuthenticated)
+        {
+            <h2>Build a reputation</h2>
+            <p>
+                Make a name for yourself out there by creating content and engaging with other users.
+            </p>
+            <p>
+                <a class="btn btn-primary" href="@Url.Action("ProfilePage", "Users", new { UserID = User.Identity.GetUserId()})">
+                    My profile &raquo;
+                </a>
+            </p>
+        }
+        else
+        {
+            <h2>Build a reputation</h2>
+            <p>
+                Studion is not just about notes but also about people. Engage with others and sign in.
+            </p>
+            <p>
+                <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">
+                    Log in &raquo;
+                </a>
+            </p>
+        }
     </div>
 </div>

@@ -61,11 +61,11 @@ else
         @Html.Label("Upload File (pdf max 20 MB)")
         <div class="row">
             <div class="col-md-4">
-                <input type="file" id="UploadFile" name="upload" required />
+                <input type="file" accept=".pdf" id="UploadFile" name="upload" required />
             </div>
         </div>
     </div>
     <hr />
 
-    <button type="submit" accept=".pdf" class="btn btn-primary btn-lg">Upload</button>
+    <button type="submit" class="btn btn-primary btn-lg">Upload</button>
 }
