@@ -107,16 +107,14 @@ namespace Studion.Controllers
         public ActionResult Upload()
         {
             // code to prevent unlogged user uploading a note
-            var currentUrl = Request.Url.AbsolutePath;
-            var userID = User.Identity.GetUserId();
-            if (userID == null)
+            if(Request.IsAuthenticated)
             {
-                return RedirectToAction("Login", "Account", new { returnUrl = currentUrl});
+                var viewModel = new NoteFormViewModel(_context);
+                return View(viewModel);
             }
 
-            var viewModel = new NoteFormViewModel(_context);
-
-            return View(viewModel);
+            var currentUrl = Request.Url.AbsolutePath;
+            return RedirectToAction("Login", "Account", new { returnUrl = currentUrl});
         }
 
         //on form submit
@@ -125,11 +123,19 @@ namespace Studion.Controllers
         {
             if (Request.IsAuthenticated)
             {
+
                 if (ModelState.IsValid)
                 {
-                    string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
-                    nfvm.SaveToDatabase(_context, User.Identity.GetUserId(), upload, pathToSubDir);
-                    return RedirectToAction("Display", "Notes", new { NoteID = nfvm.Note.NoteID });
+                    if (upload.ContentLength < 2000000) // ContentLength returns integer number of bytes
+                    {
+                        string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+                        nfvm.SaveToDatabase(_context, User.Identity.GetUserId(), upload, pathToSubDir);
+                        return RedirectToAction("Display", "Notes", new { NoteID = nfvm.Note.NoteID });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Exceeded maximum content length");
+                    }
                 }
 
                 nfvm.GenLists(_context); // must be called to repopulate lists

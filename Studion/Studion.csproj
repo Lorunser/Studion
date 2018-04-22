@@ -306,6 +306,7 @@
     <Content Include="Content\bootstrap-theme-custom.css" />
     <None Include="Properties\PublishProfiles\beta-2.pubxml" />
     <None Include="Properties\PublishProfiles\beta.pubxml" />
+    <None Include="Properties\PublishProfiles\GoDaddy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\loading.gif" />
     <Content Include="Scripts\bootstrap-sortable.js" />
