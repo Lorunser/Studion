@@ -126,7 +126,7 @@ namespace Studion.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (upload.ContentLength < 2000000) // ContentLength returns integer number of bytes
+                    if (upload.ContentLength < 20000000) // ContentLength returns integer number of bytes >> fail if exceeded 20 million
                     {
                         string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
                         nfvm.SaveToDatabase(_context, User.Identity.GetUserId(), upload, pathToSubDir);

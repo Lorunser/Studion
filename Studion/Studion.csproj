@@ -215,13 +215,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CommentController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\NotesController.cs" />
-    <Compile Include="Controllers\RatingController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Content\Controllers\AccountController.cs" />
+    <Compile Include="Content\Controllers\CommentController.cs" />
+    <Compile Include="Content\Controllers\HomeController.cs" />
+    <Compile Include="Content\Controllers\ManageController.cs" />
+    <Compile Include="Content\Controllers\NotesController.cs" />
+    <Compile Include="Content\Controllers\RatingController.cs" />
+    <Compile Include="Content\Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -292,7 +292,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Documents\3.pdf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

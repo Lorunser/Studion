@@ -24,15 +24,15 @@ namespace Studion
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/respond.min.js",
                       "~/Scripts/moment.min.js",
                       "~/Scripts/bootstrap-sortable.js",
                       "~/Scripts/star-rating.js",
                       "~/Scripts/dataTables.bootstrap.min.js")); // addition
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/bootstrap-sortable.css",
                       "~/Content/site.css",
                       "~/Content/star-rating.css",

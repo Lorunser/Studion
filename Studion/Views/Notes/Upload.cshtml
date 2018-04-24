@@ -33,6 +33,8 @@ else
     @Html.HiddenFor(m => m.ExamBoardList);
     */
 
+    @Html.ValidationSummary()
+
     <div class="form-group">
         @Html.LabelFor(n => n.Title)
         @Html.TextBoxFor(n => n.Title, new { @class = "form-control" })
