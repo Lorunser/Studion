@@ -215,13 +215,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Content\Controllers\AccountController.cs" />
-    <Compile Include="Content\Controllers\CommentController.cs" />
-    <Compile Include="Content\Controllers\HomeController.cs" />
-    <Compile Include="Content\Controllers\ManageController.cs" />
-    <Compile Include="Content\Controllers\NotesController.cs" />
-    <Compile Include="Content\Controllers\RatingController.cs" />
-    <Compile Include="Content\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotesController.cs" />
+    <Compile Include="Controllers\RatingController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -301,6 +301,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme-custom.css" />
+    <Content Include="Documents\0.pdf" />
+    <Content Include="Documents\10.pdf" />
+    <Content Include="Documents\11.pdf" />
+    <Content Include="Documents\12.pdf" />
+    <Content Include="Documents\13.pdf" />
+    <Content Include="Documents\3.pdf" />
+    <Content Include="Documents\9.pdf" />
     <None Include="Properties\PublishProfiles\beta-2.pubxml" />
     <None Include="Properties\PublishProfiles\beta.pubxml" />
     <None Include="Properties\PublishProfiles\GoDaddy filesystem.pubxml" />
@@ -382,6 +389,7 @@
     <Content Include="Views\Shared\_NoteTable.cshtml" />
     <Content Include="Views\Rating\_RatingPartial.cshtml" />
     <Content Include="Views\Comment\_CommentFormPartial.cshtml" />
+    <Content Include="Views\Notes\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,7 +2,7 @@
 @using Studion.Models
 
 @{
-    if (Model.Editing == true)
+    if(Model.Note != null)
     {
         ViewBag.Title = "Edit";
     }
@@ -10,22 +10,27 @@
     {
         ViewBag.Title = "Upload";
     }
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (Model.Editing == false)
+@if (Model.Note != null)
 {
-    <h2>Upload New Note</h2>
+    <h2>Edit Existing Note</h2>
 }
 else
 {
-    <h2>Edit Existing Note</h2>
+    <h2>Upload New Note</h2>
 }
 
 @using (Html.BeginForm("Upload", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
 
+    if (Model.Note != null)
+    {
+        @Html.HiddenFor(n => n.Note.NoteID);
+    }
     /*
      * Does not work for lists
     @Html.HiddenFor(m => m.SubjectList);
@@ -69,5 +74,5 @@ else
     </div>
     <hr />
 
-    <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+    <button type="submit" class="btn btn-primary btn-lg">Save</button>
 }

@@ -1,0 +1,17 @@
+﻿@model Int32
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Delete";
+}
+
+<h1 class="danger">Are you sure you want to delete?</h1>
+<h3 class="danger">There is no going back</h3>
+
+@using (Html.BeginForm("ConfirmDelete", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(NoteID => NoteID)
+
+    <button type="submit" class="btn btn-danger btn-lg">Yes, Delete</button>
+}

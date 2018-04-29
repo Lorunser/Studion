@@ -8,6 +8,7 @@ using Studion.Models;
 using Studion.ViewModels;
 using System.Data.Entity; // get include working
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace Studion.Controllers
 {
@@ -63,7 +64,10 @@ namespace Studion.Controllers
         {
             //returns file for download
             string filename = NoteID + ".pdf";
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "/Documents/" + filename;
+
+            string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+            string filepath = Path.Combine(pathToSubDir, filename);
+
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);
             string contentType = MimeMapping.GetMimeMapping(filepath);
 
@@ -123,13 +127,12 @@ namespace Studion.Controllers
         {
             if (Request.IsAuthenticated)
             {
-
                 if (ModelState.IsValid)
                 {
                     if (upload.ContentLength < 20000000) // ContentLength returns integer number of bytes >> fail if exceeded 20 million
                     {
                         string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
-                        nfvm.SaveToDatabase(_context, User.Identity.GetUserId(), upload, pathToSubDir);
+                        nfvm.SaveToDatabase(_context, User.Identity, upload, pathToSubDir);
                         return RedirectToAction("Display", "Notes", new { NoteID = nfvm.Note.NoteID });
                     }
                     else
@@ -144,6 +147,66 @@ namespace Studion.Controllers
 
             var currentUrl = Request.Url.AbsolutePath;
             return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
+        }
+
+
+        // GET: Notes/Edit/{NoteID}
+        [Route("Notes/Edit/{NoteID}")]
+        public ActionResult Edit(int NoteID)
+        {
+            var note = _context.Notes.Single(n => n.NoteID == NoteID);
+
+            if (note == null) // no note with given id
+            {
+                return HttpNotFound();
+            }
+
+            var identity = User.Identity;
+            var userID = identity.GetUserId();
+            if (userID == note.AuthorID) // add additional or statemenet for if admin
+            {
+                //get from db
+                var nfvm = new NoteFormViewModel(_context);
+                //set properties
+                nfvm.SetProps(note);
+                //return view
+                return View("Upload", nfvm);
+            }
+
+            return HttpNotFound(); // forbidden page would be better
+        }
+
+        // GET: Notes/Delete/{NoteID}
+        [Route("Notes/Delete/{NoteID}")]
+        public ActionResult Delete(int NoteID)
+        {
+            return View(NoteID);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmDelete(int NoteID)
+        {
+            var note = _context.Notes.Single(n => n.NoteID == NoteID);
+
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
+
+            var identity = User.Identity;
+            if (identity.GetUserId() == note.AuthorID) // add additional or statement for if admin
+            {
+                //delete file
+                string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+                string path = pathToSubDir + note.NoteID + ".pdf";
+                System.IO.File.Delete(path);
+
+                //remove from database >> cascade delete other relations
+                _context.Notes.Remove(note);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
