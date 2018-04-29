@@ -1,2 +1,7 @@
 ﻿1) Implement 3rd party sign-in
 2) Configure recovery settings and email
+3) Add Russel group unis
+	a) sql script
+	b) modify exam board description
+	c) conditional logic ?
+4) Implement edit function

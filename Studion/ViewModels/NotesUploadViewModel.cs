@@ -92,7 +92,7 @@ namespace Studion.ViewModels
             Note.LevelID = this.LevelID;
 
             //save to database
-            _context.SaveChanges();
+            _context.SaveChanges(); // must be called to assign ID
 
             //generate filename, must come after saving to db as then allocated id
             string filename = Note.NoteID + ".pdf";

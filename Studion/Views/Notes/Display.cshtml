@@ -1,4 +1,5 @@
 ﻿@model Studion.ViewModels.NotesDisplayViewModel
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Display";
@@ -28,10 +29,20 @@
             </tr>
         </table>
     </div>
-    @{
-        //ratings
+    <div class="row">
         @Html.Partial("~/Views/Rating/_RatingPartial.cshtml");
-    }    
+    </div>
+    @if (User.Identity.GetUserId() == Model.Note.AuthorID) //add logic for admin account
+    {
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">
+                <a class="btn btn-primary center-block" href="/Notes/Edit/@(Model.Note.NoteID)">Edit</a>
+            </div>
+            <div class="col-md-2 col-md-offset-4">
+                <a class="btn btn-danger center-block" href="/Notes/Delete/@(Model.Note.NoteID)">Delete</a>
+            </div>
+        </div>
+    }
 </div>
 
 

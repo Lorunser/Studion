@@ -1,6 +1,4 @@
-﻿@model Int32
-
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Delete";
 }
@@ -10,8 +8,8 @@
 
 @using (Html.BeginForm("ConfirmDelete", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(NoteID => NoteID)
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(N => N);
 
     <button type="submit" class="btn btn-danger btn-lg">Yes, Delete</button>
 }
