@@ -257,6 +257,10 @@
     <Compile Include="Migrations\201801051330551_AddOneNoteSet.Designer.cs">
       <DependentUpon>201801051330551_AddOneNoteSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804291147311_AddUniversityLevel.cs" />
+    <Compile Include="Migrations\201804291147311_AddUniversityLevel.Designer.cs">
+      <DependentUpon>201804291147311_AddUniversityLevel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -410,6 +414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801051330551_AddOneNoteSet.resx">
       <DependentUpon>201801051330551_AddOneNoteSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804291147311_AddUniversityLevel.resx">
+      <DependentUpon>201804291147311_AddUniversityLevel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
