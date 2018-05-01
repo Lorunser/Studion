@@ -6,10 +6,9 @@
 <h1 class="danger">Are you sure you want to delete?</h1>
 <h3 class="danger">There is no going back</h3>
 
-@using (Html.BeginForm("ConfirmDelete", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ConfirmDelete", "Notes", new { NoteID = Model }, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken();
-    @Html.HiddenFor(N => N);
 
     <button type="submit" class="btn btn-danger btn-lg">Yes, Delete</button>
 }

@@ -10,6 +10,7 @@
 @using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
 
     <div class="row">
         <div class="form-group col-md-4">

@@ -102,7 +102,14 @@ namespace Studion.Controllers
         [HttpPost]
         public ActionResult Search(NotesSearchViewModel nsvm)
         {
-            nsvm.PerformSearch(_context);
+            if (nsvm.OptionsSelected() == false)
+            {
+                ModelState.AddModelError("", "Please specify at least one search criteria");
+            }
+            else
+            {
+                nsvm.PerformSearch(_context);
+            }
             return View(nsvm);
         }
 

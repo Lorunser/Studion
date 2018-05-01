@@ -24,7 +24,7 @@ namespace Studion.ViewModels
         [Display(Name = "Subject")]
         public int? SubjectID { get; set; }
 
-        [Display(Name = "ExamBoard")]
+        [Display(Name = "Exam Board / University")]
         public int? ExamBoardID { get; set; }
 
         [Display(Name = "Level")]
@@ -83,6 +83,21 @@ namespace Studion.ViewModels
 
             LevelList = _context.Levels.ToList();
             LevelList.Sort();
+        }
+
+        public bool OptionsSelected()
+        {
+            if (SubjectID == null)
+            {
+                if(ExamBoardID == null)
+                {
+                    if(LevelID == null)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
