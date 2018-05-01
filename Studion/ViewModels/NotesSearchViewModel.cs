@@ -43,8 +43,6 @@ namespace Studion.ViewModels
         //methods
         public void PerformSearch(ApplicationDbContext _context)
         {
-            PopulateLists(_context);
-
             //call to database
             var notes = _context.Notes
                 .Include(n => n.author)
@@ -73,7 +71,7 @@ namespace Studion.ViewModels
             NotesList = notes.ToList();
         }
 
-        private void PopulateLists(ApplicationDbContext _context)
+        public void PopulateLists(ApplicationDbContext _context)
         {
             SubjectList = _context.Subjects.ToList();
             SubjectList.Sort();
@@ -83,6 +81,11 @@ namespace Studion.ViewModels
 
             LevelList = _context.Levels.ToList();
             LevelList.Sort();
+
+            if(NotesList == null)
+            {
+                NotesList = new List<Note>();
+            }
         }
 
         public bool OptionsSelected()

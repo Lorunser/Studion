@@ -110,6 +110,7 @@ namespace Studion.Controllers
             {
                 nsvm.PerformSearch(_context);
             }
+            nsvm.PopulateLists(_context);
             return View(nsvm);
         }
 
