@@ -261,6 +261,10 @@
     <Compile Include="Migrations\201804291147311_AddUniversityLevel.Designer.cs">
       <DependentUpon>201804291147311_AddUniversityLevel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805021507369_AddRusselUnis.cs" />
+    <Compile Include="Migrations\201805021507369_AddRusselUnis.Designer.cs">
+      <DependentUpon>201805021507369_AddRusselUnis.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -301,13 +305,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme-custom.css" />
-    <Content Include="Documents\0.pdf" />
-    <Content Include="Documents\10.pdf" />
-    <Content Include="Documents\11.pdf" />
-    <Content Include="Documents\12.pdf" />
-    <Content Include="Documents\13.pdf" />
-    <Content Include="Documents\3.pdf" />
-    <Content Include="Documents\9.pdf" />
     <None Include="Properties\PublishProfiles\beta-2.pubxml" />
     <None Include="Properties\PublishProfiles\beta.pubxml" />
     <None Include="Properties\PublishProfiles\GoDaddy filesystem.pubxml" />
@@ -425,6 +422,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804291147311_AddUniversityLevel.resx">
       <DependentUpon>201804291147311_AddUniversityLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805021507369_AddRusselUnis.resx">
+      <DependentUpon>201805021507369_AddRusselUnis.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

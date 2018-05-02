@@ -10,7 +10,9 @@
 @using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
 
     <div class="row">
         <div class="form-group col-md-4">
@@ -25,7 +27,7 @@
 
         <div class="form-group col-md-4">
             @Html.LabelFor(n => n.ExamBoardID)
-            @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Exam Board--", new { @class = "form-control" })
+            @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Board / University--", new { @class = "form-control" })
         </div>
     </div>
     
