@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity;
+using Studion.Dtos;
 
 namespace Studion.Controllers.Api
 {
@@ -23,15 +24,35 @@ namespace Studion.Controllers.Api
         #region
         // POST /api/notes
         [HttpPost]
-        public Note CreateNote(Note note)
+        public NoteDto CreateNote(NoteDto noteDto)
         {
+            //check valid
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            _context.Notes.Add(note);
+            //instantiate note object
+            var noteInDb = new Note();
+
+            //map properties
+            noteInDb.AuthorID = noteDto.AuthorID;
+            noteInDb.SubjectID = noteDto.SubjectID;
+            noteInDb.ExamBoardID = noteDto.ExamBoardID;
+            noteInDb.LevelID = noteDto.LevelID;
+
+            noteInDb.Title = noteDto.Title;
+
+            //assign props
+            noteInDb.Downloads = 0;
+            noteInDb.UploadTime = DateTime.Now;
+
+            //save to database
+            _context.Notes.Add(noteInDb);
             _context.SaveChanges();
 
-            return note;
+            //extract NoteID
+            noteDto.NoteID = noteInDb.NoteID;
+
+            return noteDto;
         }
         #endregion
 
@@ -39,27 +60,18 @@ namespace Studion.Controllers.Api
         #region
         // GET /api/notes
         [HttpGet]
-        public IEnumerable<Note> GetNotes()
+        public IEnumerable<NoteDto> GetNotes()
         {
             return _context.Notes.ToList();
         }
 
         // GET /api/notes/<noteID>
         [HttpGet]
-        public Note GetNote(int noteID)
+        public NoteDto GetNote(int noteID)
         {
-            var note = _context.Notes
-                .Include(n => n.author)
-                .Include(n => n.subject)
-                .Include(n => n.level)
-                .Include(n => n.examBoard)
-                .Include(n => n.ratings)
-                .SingleOrDefault(n => n.NoteID == noteID);
-
-            if(note == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-
-            return note;
+            Note noteInDb = GetFullNoteFromDb(noteID);
+            NoteDto noteDto = ToNoteDto(noteInDb);
+            return noteDto;
         }
 
         //Determine route
@@ -132,6 +144,77 @@ namespace Studion.Controllers.Api
             _context.SaveChanges();
 
             //remember to delete file
+        }
+        #endregion
+
+        // HELPER Methods
+        #region
+        private static Note ToNoteInDb(NoteDto noteDto)
+        {
+            var noteInDb = new Note();
+
+            //map foreign keys
+            noteInDb.AuthorID = noteDto.AuthorID;
+            noteInDb.SubjectID = noteDto.SubjectID;
+            noteInDb.ExamBoardID = noteDto.ExamBoardID;
+            noteInDb.LevelID = noteDto.LevelID;
+
+            //map props
+            noteInDb.Title = noteDto.Title;
+
+            //assign props not from Dto
+            noteInDb.Downloads = 0;
+            noteInDb.UploadTime = DateTime.Now;
+
+            return noteInDb;
+        }
+
+        private NoteDto ToNoteDto(Note noteInDb)
+        {
+            var noteDto = new NoteDto();
+
+            //assign ID
+            noteDto.NoteID = noteInDb.NoteID;
+
+            //assign foreign keys
+            noteDto.AuthorID = noteInDb.AuthorID;
+            noteDto.AuthorName = noteInDb.author.UserName;
+
+            noteDto.SubjectID = noteInDb.SubjectID;
+            noteDto.SubjectName = noteInDb.subject.SubjectName;
+
+            noteDto.ExamBoardID = noteInDb.ExamBoardID;
+            noteDto.ExamBoardName = noteInDb.examBoard.ExamBoardName;
+
+            noteDto.LevelID = noteInDb.LevelID;
+            noteDto.LevelName = noteInDb.level.LevelName;
+
+            //map props
+            noteDto.Title = noteInDb.Title;
+            noteDto.Downloads = noteInDb.Downloads;
+            noteDto.UploadTime = noteInDb.UploadTime;
+
+            //determine props
+            noteDto.AverageRating = noteInDb.GetAvRating();
+
+            //return
+            return noteDto;
+        }
+
+        private Note GetFullNoteFromDb(int noteID)
+        {
+            var note = _context.Notes
+                .Include(n => n.author)
+                .Include(n => n.subject)
+                .Include(n => n.level)
+                .Include(n => n.examBoard)
+                .Include(n => n.ratings)
+                .SingleOrDefault(n => n.NoteID == noteID);
+
+            if (note == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            return note;
         }
         #endregion
     }

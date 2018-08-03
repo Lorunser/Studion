@@ -236,6 +236,7 @@
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\RatingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Dtos\NoteDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -404,7 +405,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
