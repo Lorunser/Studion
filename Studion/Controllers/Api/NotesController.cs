@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity;
 using Studion.Dtos;
+using System.Web;
 
 namespace Studion.Controllers.Api
 {
@@ -24,26 +25,14 @@ namespace Studion.Controllers.Api
         #region
         // POST /api/notes
         [HttpPost]
-        public NoteDto CreateNote(NoteDto noteDto)
+        public IHttpActionResult CreateNote(NoteDto noteDto, HttpPostedFileBase upload)
         {
             //check valid
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
-            //instantiate note object
-            var noteInDb = new Note();
-
-            //map properties
-            noteInDb.AuthorID = noteDto.AuthorID;
-            noteInDb.SubjectID = noteDto.SubjectID;
-            noteInDb.ExamBoardID = noteDto.ExamBoardID;
-            noteInDb.LevelID = noteDto.LevelID;
-
-            noteInDb.Title = noteDto.Title;
-
-            //assign props
-            noteInDb.Downloads = 0;
-            noteInDb.UploadTime = DateTime.Now;
+            //create note object
+            var noteInDb = ToNoteInDb(noteDto, newNote: true);            
 
             //save to database
             _context.Notes.Add(noteInDb);
@@ -52,34 +41,37 @@ namespace Studion.Controllers.Api
             //extract NoteID
             noteDto.NoteID = noteInDb.NoteID;
 
-            return noteDto;
+            //save file to server
+            throw new NotImplementedException("Save file to server");
+
+            return Created(new Uri(Request.RequestUri + "/" + noteDto.NoteID), noteDto);
         }
         #endregion
 
         // RETRIEVE
         #region
-        // GET /api/notes
-        [HttpGet]
-        public IEnumerable<NoteDto> GetNotes()
-        {
-            return _context.Notes.ToList();
-        }
-
         // GET /api/notes/<noteID>
         [HttpGet]
-        public NoteDto GetNote(int noteID)
+        public IHttpActionResult GetNote(int noteID)
         {
+            //retrieve note from db
             Note noteInDb = GetFullNoteFromDb(noteID);
+
+            //check exists
+            if(noteInDb == null)
+                return NotFound();
+
+            //convert
             NoteDto noteDto = ToNoteDto(noteInDb);
-            return noteDto;
+            return Ok(noteDto);
         }
 
         //Determine route
         [HttpGet]
-        public IEnumerable<Note> SearchNotes(int? subjectID, int? examBoardID, int? levelID)
+        public IHttpActionResult SearchNotes(int? subjectID, int? examBoardID, int? levelID)
         {
             //call to database
-            var notes = _context.Notes
+            var notesInDb = _context.Notes
                 .Include(n => n.author)
                 .Include(n => n.subject)
                 .Include(n => n.level)
@@ -88,16 +80,19 @@ namespace Studion.Controllers.Api
 
             //filters
             if (subjectID != null)
-                notes = notes.Where(n => n.SubjectID == subjectID);
+                notesInDb = notesInDb.Where(n => n.SubjectID == subjectID);
 
             if (examBoardID != null)
-                notes = notes.Where(n => n.ExamBoardID == examBoardID);
+                notesInDb = notesInDb.Where(n => n.ExamBoardID == examBoardID);
 
             if (levelID != null)
-                notes = notes.Where(n => n.LevelID == levelID);
+                notesInDb = notesInDb.Where(n => n.LevelID == levelID);
 
-            //turn into list
-            return notes.ToList();
+            //turn into list of Dto's
+            IEnumerable<NoteDto> notesDto = ToNoteDtoList(notesInDb);
+
+            //success
+            return Ok(notesDto);
         }
         #endregion
 
@@ -105,51 +100,59 @@ namespace Studion.Controllers.Api
         #region
         // PUT /api/notes/<id>
         [HttpPut]
-        public Note UpdateNote(int noteID, Note note)
+        public IHttpActionResult UpdateNote(NoteDto noteDto, HttpPostedFileBase upload = null)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             // get note from database
-            var noteInDb = _context.Notes.Single(n => n.NoteID == noteID);
+            var noteInDb = _context.Notes.Single(n => n.NoteID == noteDto.NoteID);
 
             if (noteInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            noteInDb.ExamBoardID = note.ExamBoardID;
-            noteInDb.LevelID = note.LevelID;
-            noteInDb.SubjectID = note.SubjectID;
-            noteInDb.Title = note.Title;
+            //assign props
+            noteInDb = ToNoteInDb(noteDto);
 
+            //save to database
             _context.SaveChanges();
-            return noteInDb;
 
-            //remember to update file
+            if(upload != null)
+            {
+                throw new NotImplementedException("Update file on server");
+            }
+
+
+            return Ok(noteInDb);
         }
         #endregion
 
-        // DELETe
+        // DELETE
         #region
         // DELETE /api/notes/<id>
         [HttpDelete]
-        public void DeleteNote(int noteID)
+        public IHttpActionResult DeleteNote(int noteID)
         {
             // get note from database
             var noteInDb = _context.Notes.Single(n => n.NoteID == noteID);
 
             if (noteInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                NotFound();
 
             _context.Notes.Remove(noteInDb);
             _context.SaveChanges();
 
             //remember to delete file
+            throw new NotImplementedException("Delete file from server");
+
+            //success
+            return Ok();
         }
         #endregion
 
         // HELPER Methods
         #region
-        private static Note ToNoteInDb(NoteDto noteDto)
+        private Note ToNoteInDb(NoteDto noteDto, bool newNote = false)
         {
             var noteInDb = new Note();
 
@@ -162,9 +165,12 @@ namespace Studion.Controllers.Api
             //map props
             noteInDb.Title = noteDto.Title;
 
-            //assign props not from Dto
-            noteInDb.Downloads = 0;
-            noteInDb.UploadTime = DateTime.Now;
+            if(newNote)
+            {
+                //assign props not from Dto
+                noteInDb.Downloads = 0;
+                noteInDb.UploadTime = DateTime.Now;
+            }
 
             return noteInDb;
         }
@@ -211,10 +217,22 @@ namespace Studion.Controllers.Api
                 .Include(n => n.ratings)
                 .SingleOrDefault(n => n.NoteID == noteID);
 
-            if (note == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-
             return note;
+        }
+
+        private IEnumerable<NoteDto> ToNoteDtoList(IEnumerable<Note> notesInDb)
+        {
+            //instantiate list
+            List<NoteDto> notesDto = new List<NoteDto>();
+
+            //iterate and convert
+            foreach (var noteInDb in notesInDb)
+            {
+                notesDto.Add(ToNoteDto(noteInDb));
+            }
+
+            //return list
+            return notesDto;
         }
         #endregion
     }

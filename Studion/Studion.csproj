@@ -229,14 +229,22 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\CommentController.cs" />
+    <Compile Include="Controllers\Api\ExamBoardController.cs" />
+    <Compile Include="Controllers\Api\LevelController.cs" />
     <Compile Include="Controllers\Api\NotesController.cs" />
+    <Compile Include="Controllers\Api\RatingController.cs" />
+    <Compile Include="Controllers\Api\SubjectController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\RatingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Dtos\ExamBoardDto.cs" />
+    <Compile Include="Dtos\LevelDto.cs" />
     <Compile Include="Dtos\NoteDto.cs" />
+    <Compile Include="Dtos\SubjectDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
