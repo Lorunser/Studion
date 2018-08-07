@@ -66,15 +66,19 @@
     <script>
         $(document).ready(function () {
             $("#delete-button").on("click", function () {
-                if (confirm("Are you sure you want to delete this set of notes?")) {
-                    $.ajax({
-                        url: '/api/notes/' + $((this).attr("data-note-id")),
-                        method: DELETE,
-                        success: function () {
-                            alert("success");
-                        }
-                    });
-                }
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this set of notes?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/notes/" + button.attr("data-note-id"),
+                            method: "DELETE",
+                            success: function () {
+                                window.location = "/home";
+                            }
+                        });
+                    }
+                })
             });
         });
     </script>    

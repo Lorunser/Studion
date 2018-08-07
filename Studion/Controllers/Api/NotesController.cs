@@ -26,8 +26,8 @@ namespace Studion.Controllers.Api
 
         // CREATE
         #region
-        // POST /api/notes
         [HttpPost]
+        [Route("api/notes")]
         public IHttpActionResult CreateNote(NoteDto noteDto, HttpPostedFileBase upload)
         {
             //check valid
@@ -45,8 +45,7 @@ namespace Studion.Controllers.Api
             noteDto.NoteID = noteInDb.NoteID;
 
             //save file to server
-            string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
-            string path = Path.Combine(pathToSubDir, Convert.ToString(noteInDb.NoteID), ".pdf");
+            string path = GetPath(noteInDb.NoteID);
             upload.SaveAs(path);
 
             //return ok
@@ -58,6 +57,7 @@ namespace Studion.Controllers.Api
         #region
         // GET /api/notes/<noteID>
         [HttpGet]
+        [Route("api/notes/{noteID}")]
         public IHttpActionResult GetNote(int noteID)
         {
             //retrieve note from db
@@ -74,6 +74,7 @@ namespace Studion.Controllers.Api
 
         //Determine route
         [HttpGet]
+        [Route("api/notes/search")]
         public IHttpActionResult SearchNotes(int? subjectID, int? examBoardID, int? levelID)
         {
             //call to database
@@ -104,8 +105,8 @@ namespace Studion.Controllers.Api
 
         // UPDATE
         #region
-        // PUT /api/notes/<id>
         [HttpPut]
+        [Route("api/notes")]
         public IHttpActionResult UpdateNote(NoteDto noteDto, HttpPostedFileBase upload = null)
         {
             if (!ModelState.IsValid)
@@ -120,7 +121,7 @@ namespace Studion.Controllers.Api
             var identity = User.Identity;
 
             //allowed
-            if (identity.Name == noteInDb.AuthorID)
+            if (identity.GetUserId() == noteInDb.AuthorID)
             {
                 //assign props
                 noteInDb = ToNoteInDb(noteDto);
@@ -129,8 +130,7 @@ namespace Studion.Controllers.Api
                 _context.SaveChanges();
 
                 //save file
-                string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
-                string path = Path.Combine(pathToSubDir, Convert.ToString(noteInDb.NoteID), ".pdf");
+                string path = GetPath(noteInDb.NoteID);
                 upload.SaveAs(path);
 
                 //return ok
@@ -146,6 +146,7 @@ namespace Studion.Controllers.Api
         #region
         // DELETE /api/notes/<id>
         [HttpDelete]
+        [Route("api/notes/{noteID}")]
         public IHttpActionResult DeleteNote(int noteID)
         { 
             // get note from database
@@ -153,15 +154,14 @@ namespace Studion.Controllers.Api
 
             // access allowed
             var identity = User.Identity;
-            if(identity.Name == noteInDb.AuthorID) // also allow for admin
+            if(identity.GetUserId() == noteInDb.AuthorID) // also allow for admin
             {
                 if (noteInDb == null)
                     NotFound();
 
                 //delete file
-                string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
-                string path = Path.Combine(pathToSubDir, Convert.ToString(noteInDb.NoteID), ".pdf");
-                System.IO.File.Delete(path);
+                string path = GetPath(noteInDb.NoteID);
+                File.Delete(path);
 
                 //remove from db
                 _context.Notes.Remove(noteInDb);
@@ -259,6 +259,12 @@ namespace Studion.Controllers.Api
 
             //return list
             return notesDto;
+        }
+
+        private string GetPath(int noteID)
+        {
+            string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
+            return Path.Combine(pathToSubDir, Convert.ToString(noteID) + ".pdf");
         }
         #endregion
     }

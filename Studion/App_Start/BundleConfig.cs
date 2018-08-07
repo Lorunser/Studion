@@ -8,10 +8,14 @@ namespace Studion
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        //"~/Scripts/jquery-{version}.js", //removed as server does not like wildcards
+            bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Scripts/jquery-3.3.1.js",
-                        "~/Scripts/jquery.dataTables.min.js")); // addition
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/bootbox.js",
+                        "~/Scripts/respond.min.js",
+                        "~/Scripts/star-rating.js",
+                        "~/Scripts/DataTables/jquery.datatables.js",
+                        "~/Scripts/DataTables/datatables.bootstrap.js"));
             /*
              * //removed because of wildcard
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -23,21 +27,12 @@ namespace Studion
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.min.js",
-                      "~/Scripts/respond.min.js",
-                      "~/Scripts/moment.min.js",
-                      "~/Scripts/bootstrap-sortable.js",
-                      "~/Scripts/star-rating.js",
-                      "~/Scripts/dataTables.bootstrap.min.js")); // addition
-
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
-                      "~/Content/bootstrap-sortable.css",
+                      "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/star-rating.css",
-                      "~/Content/jquery.dataTables.min.css",
-                      "~/Content/bootstrap-theme-custom.css")); // addition
+                      "~/Content/bootstrap-theme-custom.css",
+                      "~/Content/DataTables/css/datatables.bootstrap.css")); // addition
 
             //added star rating css and js files to bootstrap bundles
         }

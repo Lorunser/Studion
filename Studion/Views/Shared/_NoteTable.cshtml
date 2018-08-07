@@ -1,6 +1,6 @@
 ﻿@model List<Studion.Models.Note>
 
-<table id="example" class="display" style="width:100%">
+<table id="noteTable" class="display" style="width:100%">
     <thead>
         <tr>
             <th>Title</th>
@@ -30,4 +30,8 @@
     </tbody>
 </table>
 
-<script src="~/Scripts/initialiseDataTable.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#noteTable").DataTable();
+    });
+</script>
