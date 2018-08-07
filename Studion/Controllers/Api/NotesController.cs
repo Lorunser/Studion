@@ -8,6 +8,9 @@ using System.Web.Http;
 using System.Data.Entity;
 using Studion.Dtos;
 using System.Web;
+using System.IO;
+using Microsoft.AspNet.Identity;
+
 
 namespace Studion.Controllers.Api
 {
@@ -42,8 +45,11 @@ namespace Studion.Controllers.Api
             noteDto.NoteID = noteInDb.NoteID;
 
             //save file to server
-            throw new NotImplementedException("Save file to server");
+            string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
+            string path = Path.Combine(pathToSubDir, Convert.ToString(noteInDb.NoteID), ".pdf");
+            upload.SaveAs(path);
 
+            //return ok
             return Created(new Uri(Request.RequestUri + "/" + noteDto.NoteID), noteDto);
         }
         #endregion
@@ -111,19 +117,28 @@ namespace Studion.Controllers.Api
             if (noteInDb == null)
                 return NotFound();
 
-            //assign props
-            noteInDb = ToNoteInDb(noteDto);
+            var identity = User.Identity;
 
-            //save to database
-            _context.SaveChanges();
-
-            if(upload != null)
+            //allowed
+            if (identity.Name == noteInDb.AuthorID)
             {
-                throw new NotImplementedException("Update file on server");
+                //assign props
+                noteInDb = ToNoteInDb(noteDto);
+
+                //save to database
+                _context.SaveChanges();
+
+                //save file
+                string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
+                string path = Path.Combine(pathToSubDir, Convert.ToString(noteInDb.NoteID), ".pdf");
+                upload.SaveAs(path);
+
+                //return ok
+                return Ok(noteInDb);
             }
 
-
-            return Ok(noteInDb);
+            //denied
+            return Unauthorized();
         }
         #endregion
 
@@ -132,21 +147,32 @@ namespace Studion.Controllers.Api
         // DELETE /api/notes/<id>
         [HttpDelete]
         public IHttpActionResult DeleteNote(int noteID)
-        {
+        { 
             // get note from database
             var noteInDb = _context.Notes.Single(n => n.NoteID == noteID);
 
-            if (noteInDb == null)
-                NotFound();
+            // access allowed
+            var identity = User.Identity;
+            if(identity.Name == noteInDb.AuthorID) // also allow for admin
+            {
+                if (noteInDb == null)
+                    NotFound();
 
-            _context.Notes.Remove(noteInDb);
-            _context.SaveChanges();
+                //delete file
+                string pathToSubDir = System.Web.Hosting.HostingEnvironment.MapPath("~/Documents/");
+                string path = Path.Combine(pathToSubDir, Convert.ToString(noteInDb.NoteID), ".pdf");
+                System.IO.File.Delete(path);
 
-            //remember to delete file
-            throw new NotImplementedException("Delete file from server");
+                //remove from db
+                _context.Notes.Remove(noteInDb);
+                _context.SaveChanges();
 
-            //success
-            return Ok();
+                //success
+                return Ok();
+            }
+
+            //not allowed
+            return Unauthorized();
         }
         #endregion
 

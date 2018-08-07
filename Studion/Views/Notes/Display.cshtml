@@ -39,7 +39,10 @@
                 <a class="btn btn-primary center-block" href="/Notes/Edit/@(Model.Note.NoteID)">Edit</a>
             </div>
             <div class="col-md-2 col-md-offset-4">
-                <a class="btn btn-danger center-block" href="/Notes/Delete/@(Model.Note.NoteID)">Delete</a>
+                <!--
+                <a class="btn btn-danger center-block" href="/Notes/Delete/AT_SIGN(Model.Note.NoteID)">Delete</a>
+                -->
+                <button id="delete-button" data-note-id="@Model.Note.NoteID" class="btn btn-danger center-block">Delete</button>
             </div>
         </div>
     }
@@ -56,4 +59,23 @@
 
     //submit comment
     @Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model);
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#delete-button").on("click", function () {
+                if (confirm("Are you sure you want to delete this set of notes?")) {
+                    $.ajax({
+                        url: '/api/notes/' + $((this).attr("data-note-id")),
+                        method: DELETE,
+                        success: function () {
+                            alert("success");
+                        }
+                    });
+                }
+            });
+        });
+    </script>    
 }
