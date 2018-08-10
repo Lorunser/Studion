@@ -36,12 +36,86 @@
     </div>
 }
 
+<button id="form-submit" type="submit" class="btn btn-primary btn-lg center-block">Submit Search</button>
+
 <hr />
 
 <!--Display available notes-->
+
 <div class="row">
-    @Html.Partial("~/Views/Shared/_NoteTable.cshtml", Model.NotesList)
+    <table id="noteTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Subject</th>
+                <th>Level</th>
+                <th>Exam Board</th>
+                <th>Uploaded</th>
+                <th>Downloads</th>
+                <th>Av. Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var note in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(note.Title, "Display", "Notes", new { NoteID = note.NoteID }, null)</td>
+                    <td>@Html.ActionLink(note.author.UserName, "ProfilePage", "Users", new { UserID = note.author.Id }, null)</td>
+                    <td>@note.subject.SubjectName</td>
+                    <td>@note.level.LevelName</td>
+                    <td>@note.examBoard.ExamBoardName</td>
+                    <td>@note.UploadTime.ToShortDateString()</td>
+                    <td>@note.Downloads</td>
+                    <td>@(note.GetAvRating()) / 5</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#noteTable").DataTable();
+
+            $("#form-submit").on("click", function () {
+                $("#noteTable").DataTable({
+                    ajax: {
+                        url: "/api/notes/search",
+                        
+                        data:{
+                            subjectID: ,
+                            levelID: ,
+                            examBoardID:
+                        },
+
+                        dataSrc: ""
+                    },
+
+                    columns: [
+                        {
+                            data: "title",
+                            render: function (data, type, note) {
+                                return "<a href='/notes/display/" + note.noteID + "'>" + note.Title + "</a>";
+                            }
+                        },
+                        {
+                            data: "authorName",
+                            render: function (data, type, note) {
+                                return "<a href='/users/" + note.authorID + "'>" + note.authorName + "</a>";
+                            }
+                        },
+                        {
+                            data: "subjectName"
+                        }
+                    ]
+                });
+            });
+        });
+    </script>
+}
 
 
 
