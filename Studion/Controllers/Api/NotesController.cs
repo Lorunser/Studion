@@ -55,7 +55,6 @@ namespace Studion.Controllers.Api
 
         // RETRIEVE
         #region
-        // GET /api/notes/<noteID>
         [HttpGet]
         [Route("api/notes/{noteID}")]
         public IHttpActionResult GetNote(int noteID)
@@ -72,7 +71,14 @@ namespace Studion.Controllers.Api
             return Ok(noteDto);
         }
 
-        //Determine route
+    
+        [HttpGet]
+        [Route("api/notes")]
+        public IHttpActionResult GetNotes()
+        {
+            return SearchNotes(null, null, null);
+        }
+
         [HttpGet]
         [Route("api/notes/search")]
         public IHttpActionResult SearchNotes(int? subjectID, int? examBoardID, int? levelID)
