@@ -7,37 +7,26 @@
 <!--Finalised-->
 <h2>Search available notes</h2>
 
-
-@using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data"}))
-{
-    @Html.AntiForgeryToken()
-    <div class="text-danger">
-        @Html.ValidationSummary()
-    </div>
-
+<form id="search-form">
     <div class="row">
-        <div class="form-group col-md-4">
-            @Html.LabelFor(n => n.SubjectID)
+        <div class="form-group col-md-3">
             @Html.DropDownListFor(n => n.SubjectID, new SelectList(Model.SubjectList, "SubjectID", "SubjectName"), "--Select Subject--", new { @class = "form-control" })
         </div>
 
-        <div class="form-group col-md-4">
-            @Html.LabelFor(n => n.LevelID)
+        <div class="form-group col-md-3">
             @Html.DropDownListFor(n => n.LevelID, new SelectList(Model.LevelList, "LevelID", "LevelName"), "--Select Level--", new { @class = "form-control" })
         </div>
 
-        <div class="form-group col-md-4">
-            @Html.LabelFor(n => n.ExamBoardID)
+        <div class="form-group col-md-3">
             @Html.DropDownListFor(n => n.ExamBoardID, new SelectList(Model.ExamBoardList, "ExamBoardID", "ExamBoardName"), "--Select Board / University--", new { @class = "form-control" })
         </div>
-    </div>
-    
-    <div class="row">
-        <button type="submit" class="btn btn-primary btn-lg center-block">Search</button>
-    </div>
-}
 
-<button id="form-submit" type="submit" class="btn btn-primary btn-lg center-block">Submit Search</button>
+        <div class="form-group col-md-3">
+            <button type="submit" class="btn btn-primary btn-lg form-control">Search</button>
+        </div>
+    </div>
+</form>
+
 
 <hr />
 
@@ -64,40 +53,65 @@
 {
     <script>
         $(document).ready(function () {
-            $("#noteTable").DataTable();
-
-            $("#form-submit").on("click", function () {
-                $("#noteTable").DataTable({
-                    ajax: {
-                        url: "/api/notes/search",
-                        
-                        data:{
-                            subjectID: ,
-                            levelID: ,
-                            examBoardID:
-                        },
-
-                        dataSrc: ""
-                    },
-
-                    columns: [
-                        {
-                            data: "title",
-                            render: function (data, type, note) {
-                                return "<a href='/notes/display/" + note.noteID + "'>" + note.Title + "</a>";
-                            }
-                        },
-                        {
-                            data: "authorName",
-                            render: function (data, type, note) {
-                                return "<a href='/users/" + note.authorID + "'>" + note.authorName + "</a>";
-                            }
-                        },
-                        {
-                            data: "subjectName"
+            //instantiate table with style
+            var table = $('#note-table');
+            table.DataTable(/*{
+                columns: [
+                    {
+                        data: "title",
+                        render: function (data, type, note) {
+                            return "<a href='/notes/display/" + note.noteID + "'>" + note.Title + "</a>";
                         }
-                    ]
+                    },
+                    {
+                        data: "authorName",
+                        render: function (data, type, note) {
+                            return "<a href='/users/" + note.authorID + "'>" + note.authorName + "</a>";
+                        }
+                    },
+                    {
+                        data: "subjectName"
+                    },
+                    {
+                        data: "levelName"
+                    },
+                    {
+                        data: "examBoardName"
+                    },
+                    {
+                        data: "uploadTime"
+                    },
+                    {
+                        data: "downloads"
+                    },
+                    {
+                        data: "averageRating"
+                    }
+                ]
+            }*/);
+
+            //get form
+            var form = $('#search-form');
+
+            form.on('submit', function(event) {
+                event.preventDefault();
+                var form = $(this);
+                var table = $('#noteTable');
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/notes'/*,
+                    data: {
+                        subjectID: form['SubjectID'],
+                        levelID: form['LevelID'],
+                        examBoardID: form['ExamBoardID']
+                    }*/
+                }).done(function(data){
+                    table.draw();
+                }).fail(function() {
+                    alert( "Fail." );           
                 });
+                return false;
             });
         });
     </script>
