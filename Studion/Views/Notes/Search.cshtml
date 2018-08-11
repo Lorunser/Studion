@@ -7,6 +7,7 @@
 <!--Finalised-->
 <h2>Search available notes</h2>
 
+
 @using (Html.BeginForm("Search", "Notes", null, FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
@@ -56,21 +57,6 @@
                 <th>Av. Rating</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var note in Model)
-            {
-                <tr>
-                    <td>@Html.ActionLink(note.Title, "Display", "Notes", new { NoteID = note.NoteID }, null)</td>
-                    <td>@Html.ActionLink(note.author.UserName, "ProfilePage", "Users", new { UserID = note.author.Id }, null)</td>
-                    <td>@note.subject.SubjectName</td>
-                    <td>@note.level.LevelName</td>
-                    <td>@note.examBoard.ExamBoardName</td>
-                    <td>@note.UploadTime.ToShortDateString()</td>
-                    <td>@note.Downloads</td>
-                    <td>@(note.GetAvRating()) / 5</td>
-                </tr>
-            }
-        </tbody>
     </table>
 </div>
 
