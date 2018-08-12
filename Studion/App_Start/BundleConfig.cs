@@ -15,7 +15,8 @@ namespace Studion
                         "~/Scripts/respond.min.js",
                         "~/Scripts/star-rating.js",
                         "~/Scripts/DataTables/jquery.datatables.js",
-                        "~/Scripts/DataTables/datatables.bootstrap.js"));
+                        "~/Scripts/DataTables/datatables.bootstrap.js",
+                        "~/Scripts/moment.js"));
             /*
              * //removed because of wildcard
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

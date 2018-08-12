@@ -33,7 +33,7 @@
 <!--Display available notes-->
 
 <div class="row">
-    <table id="noteTable" class="display" style="width:100%">
+    <table id="noteTable" class="display table table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>Title</th>
@@ -55,62 +55,67 @@
         $(document).ready(function () {
             //instantiate table with style
             var table = $('#note-table');
-            table.DataTable(/*{
-                columns: [
-                    {
-                        data: "title",
-                        render: function (data, type, note) {
-                            return "<a href='/notes/display/" + note.noteID + "'>" + note.Title + "</a>";
-                        }
-                    },
-                    {
-                        data: "authorName",
-                        render: function (data, type, note) {
-                            return "<a href='/users/" + note.authorID + "'>" + note.authorName + "</a>";
-                        }
-                    },
-                    {
-                        data: "subjectName"
-                    },
-                    {
-                        data: "levelName"
-                    },
-                    {
-                        data: "examBoardName"
-                    },
-                    {
-                        data: "uploadTime"
-                    },
-                    {
-                        data: "downloads"
-                    },
-                    {
-                        data: "averageRating"
-                    }
-                ]
-            }*/);
+            table.DataTable();
 
             //get form
             var form = $('#search-form');
 
+            //called on form submit
             form.on('submit', function(event) {
                 event.preventDefault();
                 var form = $(this);
                 var table = $('#noteTable');
 
-                $.ajax({
-                    type: 'GET',
-                    url: '/api/notes'/*,
-                    data: {
-                        subjectID: form['SubjectID'],
-                        levelID: form['LevelID'],
-                        examBoardID: form['ExamBoardID']
-                    }*/
-                }).done(function(data){
-                    table.draw();
-                }).fail(function() {
-                    alert( "Fail." );           
+                //reinitialise
+                table.DataTable({
+                    destroy: true,
+
+                    ajax: {
+                        type: 'GET',
+                        url: '/api/notes/search?' + form.serialize(),
+                        dataSrc: ""
+                    },
+
+                    columns: [
+                        {
+                            data: "title",
+                            render: function (data, type, note) {
+                                return "<a href='/notes/display/" + note.noteID + "'>" + note.title + "</a>";
+                            }
+                        },
+                        {
+                            data: "authorName",
+                            render: function (data, type, note) {
+                                return "<a href='/users/" + note.authorID + "'>" + note.authorName + "</a>";
+                            }
+                        },
+                        {
+                            data: "subjectName"
+                        },
+                        {
+                            data: "levelName"
+                        },
+                        {
+                            data: "examBoardName"
+                        },
+                        {
+                            data: "uploadTime",
+                            render: function (data, type) {
+                                if (type === "sort" || type === "type") {
+                                    return data;
+                                }
+                                return moment(data).format("MMMM YYYY")
+                            }
+                        },
+                        {
+                            data: "downloads"
+                        },
+                        {
+                            data: "averageRating"
+                        }
+                    ]
                 });
+
                 return false;
             });
         });
