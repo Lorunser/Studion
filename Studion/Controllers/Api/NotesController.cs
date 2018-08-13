@@ -16,6 +16,7 @@ namespace Studion.Controllers.Api
 {
     public class NotesController : ApiController
     {
+        #region Database
         private ApplicationDbContext _context;
 
         //constructor
@@ -23,9 +24,9 @@ namespace Studion.Controllers.Api
         {
             _context = new ApplicationDbContext();
         }
+        #endregion
 
-        // CREATE
-        #region
+        #region CREATE
         [HttpPost]
         [Route("api/notes")]
         public IHttpActionResult CreateNote(NoteDto noteDto, HttpPostedFileBase upload)
@@ -34,27 +35,31 @@ namespace Studion.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            //create note object
-            var noteInDb = ToNoteInDb(noteDto, newNote: true);            
+            if(User.Identity.IsAuthenticated)
+            {
+                //create note object
+                var noteInDb = ToNewNoteInDb(noteDto);
 
-            //save to database
-            _context.Notes.Add(noteInDb);
-            _context.SaveChanges();
+                //save to database
+                _context.Notes.Add(noteInDb);
+                _context.SaveChanges();
 
-            //extract NoteID
-            noteDto.NoteID = noteInDb.NoteID;
+                //extract NoteID
+                noteDto.NoteID = noteInDb.NoteID;
 
-            //save file to server
-            string path = GetPath(noteInDb.NoteID);
-            upload.SaveAs(path);
+                //save file to server
+                string path = GetPath(noteInDb.NoteID);
+                upload.SaveAs(path);
 
-            //return ok
-            return Created(new Uri(Request.RequestUri + "/" + noteDto.NoteID), noteDto);
+                //return ok
+                return Created(new Uri(Request.RequestUri + "/" + noteDto.NoteID), noteDto);
+            }
+
+            return Unauthorized();
         }
         #endregion
 
-        // RETRIEVE
-        #region
+        #region RETRIEVE
         [HttpGet]
         [Route("api/notes/{noteID}")]
         public IHttpActionResult GetNote(int noteID)
@@ -85,7 +90,7 @@ namespace Studion.Controllers.Api
         {
             //call to database
             var notesInDb = _context.Notes
-                .Include(n => n.author)
+                .Include(n => n.author.UserName)
                 .Include(n => n.subject)
                 .Include(n => n.level)
                 .Include(n => n.examBoard)
@@ -112,12 +117,13 @@ namespace Studion.Controllers.Api
         }
         #endregion
 
-        // UPDATE
-        #region
+        #region UPDATE
         [HttpPut]
         [Route("api/notes")]
-        public IHttpActionResult UpdateNote(NoteDto noteDto, HttpPostedFileBase upload = null)
+        public IHttpActionResult UpdateNote(NoteDto noteDto)
         {
+            //not allowed to alter file after upload
+
             if (!ModelState.IsValid)
                 return BadRequest();
 
@@ -133,14 +139,10 @@ namespace Studion.Controllers.Api
             if (identity.GetUserId() == noteInDb.AuthorID)
             {
                 //assign props
-                noteInDb = ToNoteInDb(noteDto);
+                ModifyNoteInDb(noteInDb, noteDto);
 
                 //save to database
                 _context.SaveChanges();
-
-                //save file
-                string path = GetPath(noteInDb.NoteID);
-                upload.SaveAs(path);
 
                 //return ok
                 return Ok(noteInDb);
@@ -151,9 +153,7 @@ namespace Studion.Controllers.Api
         }
         #endregion
 
-        // DELETE
-        #region
-        // DELETE /api/notes/<id>
+        #region DELETE
         [HttpDelete]
         [Route("api/notes/{noteID}")]
         public IHttpActionResult DeleteNote(int noteID)
@@ -185,29 +185,33 @@ namespace Studion.Controllers.Api
         }
         #endregion
 
-        // HELPER Methods
-        #region
-        private Note ToNoteInDb(NoteDto noteDto, bool newNote = false)
+        #region Helper
+        private Note ToNewNoteInDb(NoteDto noteDto)
         {
             var noteInDb = new Note();
 
-            //map foreign keys
-            noteInDb.AuthorID = noteDto.AuthorID;
+            //map props from Dto
             noteInDb.SubjectID = noteDto.SubjectID;
             noteInDb.ExamBoardID = noteDto.ExamBoardID;
             noteInDb.LevelID = noteDto.LevelID;
-
-            //map props
             noteInDb.Title = noteDto.Title;
 
-            if(newNote)
-            {
-                //assign props not from Dto
-                noteInDb.Downloads = 0;
-                noteInDb.UploadTime = DateTime.Now;
-            }
+            //map props that cannot be forged
+            noteInDb.AuthorID = User.Identity.GetUserId();
+            noteInDb.Downloads = 0;
+            noteInDb.UploadTime = DateTime.Now;
 
+            //do not assign NoteID as it is assigned later
             return noteInDb;
+        }
+
+        private void ModifyNoteInDb(Note noteInDb, NoteDto noteDto)
+        {
+            //alter props that should be changed
+            noteInDb.SubjectID = noteDto.SubjectID;
+            noteInDb.ExamBoardID = noteDto.ExamBoardID;
+            noteInDb.LevelID = noteDto.LevelID;
+            noteInDb.Title = noteDto.Title;
         }
 
         private NoteDto ToNoteDto(Note noteInDb)
@@ -245,7 +249,7 @@ namespace Studion.Controllers.Api
         private Note GetFullNoteFromDb(int noteID)
         {
             var note = _context.Notes
-                .Include(n => n.author)
+                .Include(n => n.author.UserName)
                 .Include(n => n.subject)
                 .Include(n => n.level)
                 .Include(n => n.examBoard)

@@ -244,6 +244,7 @@
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\RatingController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Dtos\CommentDto.cs" />
     <Compile Include="Dtos\ExamBoardDto.cs" />
     <Compile Include="Dtos\LevelDto.cs" />
     <Compile Include="Dtos\NoteDto.cs" />

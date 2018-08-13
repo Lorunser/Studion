@@ -11,8 +11,7 @@ namespace Studion.Controllers
 {
     public class UsersController : Controller
     {
-        //database initialisation
-        #region
+        #region Database
         private ApplicationDbContext _context;
 
         public UsersController()
