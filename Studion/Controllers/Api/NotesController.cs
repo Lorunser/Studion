@@ -81,7 +81,7 @@ namespace Studion.Controllers.Api
 
         [HttpGet]
         [Route("api/notes/search")]
-        public IHttpActionResult SearchNotes(int? subjectID, int? examBoardID, int? levelID)
+        public IHttpActionResult SearchNotes(int? subjectID, int? examBoardID, int? levelID, string authorID = null)
         {
             //call to database
             var notesInDb = _context.Notes
@@ -100,6 +100,9 @@ namespace Studion.Controllers.Api
 
             if (levelID != null)
                 notesInDb = notesInDb.Where(n => n.LevelID == levelID);
+
+            if (authorID != null)
+                notesInDb = notesInDb.Where(n => n.AuthorID == authorID);
 
             //turn into list of Dto's
             IEnumerable<NoteDto> notesDto = ToNoteDtoList(notesInDb);

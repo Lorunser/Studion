@@ -14,8 +14,6 @@ namespace Studion.ViewModels
         public string UserID { get; private set; }
         public string UserName { get; private set; }
 
-        public List<Note> PublishedNotes { get; private set; }
-
         public int NumNotesPublished { get; private set; }
         public int NumNotesRated { get; private set; }
         public int NumCommentsMade { get; private set; }
@@ -29,26 +27,24 @@ namespace Studion.ViewModels
             this.UserID = userID;
             this.UserName = _context.Users.Single(u => u.Id == this.UserID).UserName;
 
-            this.PublishedNotes = _context.Notes
-                .Include(n => n.author)
-                .Include(n => n.subject)
-                .Include(n => n.level)
-                .Include(n => n.examBoard)
-                .Include(n => n.ratings)
+            var publishedNotes = _context.Notes
                 .Where(n => n.AuthorID == this.UserID)
+                .Include(n => n.ratings) // needed to get average rating working
                 .ToList();
 
-            this.NumNotesPublished = PublishedNotes
+            this.NumNotesPublished = publishedNotes
                 .Count();
+
             this.NumNotesRated = _context.Ratings
                 .Count(r => r.RaterID == this.UserID);
+
             this.NumCommentsMade = _context.Comments
                 .Count(c => c.CommenterID == this.UserID);
 
             this.TotalDownloads = 0;
             double ratingSum = 0;
 
-            foreach (var note in PublishedNotes)
+            foreach (var note in publishedNotes)
             {
                 this.TotalDownloads += note.Downloads;
                 ratingSum += note.GetAvRating();

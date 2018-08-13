@@ -98,22 +98,6 @@ namespace Studion.Controllers
             return View(nsvm);
         }
 
-        //second time called
-        [HttpPost]
-        public ActionResult Search(NotesSearchViewModel nsvm)
-        {
-            if (nsvm.OptionsSelected() == false)
-            {
-                ModelState.AddModelError("", "Please specify at least one search criteria");
-            }
-            else
-            {
-                nsvm.PerformSearch(_context);
-            }
-            nsvm.PopulateLists(_context);
-            return View(nsvm);
-        }
-
         // GET: Notes/Upload
         // first time called
         public ActionResult Upload()

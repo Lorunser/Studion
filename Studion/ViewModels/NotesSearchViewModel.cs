@@ -12,8 +12,6 @@ namespace Studion.ViewModels
 {
     public class NotesSearchViewModel
     {
-        public List<Note> NotesList { get; set; }
-
         //lists for drop down models
         public List<Subject> SubjectList { get; set; }
         public List<ExamBoard> ExamBoardList { get; set; }
@@ -36,39 +34,6 @@ namespace Studion.ViewModels
         public NotesSearchViewModel(ApplicationDbContext _context)
         {
             PopulateLists(_context);
-            //instantiate empty list
-            NotesList = new List<Note>();
-        }
-
-        //methods
-        public void PerformSearch(ApplicationDbContext _context)
-        {
-            //call to database
-            var notes = _context.Notes
-                .Include(n => n.author)
-                .Include(n => n.subject)
-                .Include(n => n.level)
-                .Include(n => n.examBoard)
-                .Include(n => n.ratings);
-
-            //filters
-            if(SubjectID != null)
-            {
-                notes = notes.Where(n => n.SubjectID == SubjectID);
-            }
-
-            if(ExamBoardID != null)
-            {
-                notes = notes.Where(n => n.ExamBoardID == ExamBoardID);
-            }
-
-            if(LevelID != null)
-            {
-                notes = notes.Where(n => n.LevelID == LevelID);
-            }
-
-            //turn into list
-            NotesList = notes.ToList();
         }
 
         public void PopulateLists(ApplicationDbContext _context)
@@ -81,26 +46,6 @@ namespace Studion.ViewModels
 
             LevelList = _context.Levels.ToList();
             LevelList.Sort();
-
-            if(NotesList == null)
-            {
-                NotesList = new List<Note>();
-            }
-        }
-
-        public bool OptionsSelected()
-        {
-            if (SubjectID == null)
-            {
-                if(ExamBoardID == null)
-                {
-                    if(LevelID == null)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
         }
     }
 }
