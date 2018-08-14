@@ -122,7 +122,7 @@ namespace Studion.Controllers.Api
         [Route("api/notes")]
         public IHttpActionResult UpdateNote(NoteDto noteDto)
         {
-            //not allowed to alter file after upload
+            // !NB! not allowed to alter file after upload
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -133,10 +133,8 @@ namespace Studion.Controllers.Api
             if (noteInDb == null)
                 return NotFound();
 
-            var identity = User.Identity;
-
             //allowed
-            if (identity.GetUserId() == noteInDb.AuthorID)
+            if (User.Identity.GetUserId() == noteInDb.AuthorID)
             {
                 //assign props
                 ModifyNoteInDb(noteInDb, noteDto);
@@ -145,7 +143,7 @@ namespace Studion.Controllers.Api
                 _context.SaveChanges();
 
                 //return ok
-                return Ok(noteInDb);
+                return Ok(noteDto);
             }
 
             //denied

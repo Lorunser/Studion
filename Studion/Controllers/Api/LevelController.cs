@@ -23,7 +23,7 @@ namespace Studion.Controllers.Api
         }
         #endregion
 
-        // RETRIEVE
+        #region RETRIEVE
         public IHttpActionResult GetLevels()
         {
             IEnumerable<Level> levelsInDb = _context.Levels.ToList();
@@ -36,5 +36,6 @@ namespace Studion.Controllers.Api
 
             return Ok(levelsDto);
         }
+        #endregion
     }
 }

@@ -73,12 +73,49 @@ namespace Studion.Controllers.Api
         [Route("api/comments")]
         public IHttpActionResult UpdateComment(CommentDto commentDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             Comment commentInDb = _context.Comments
                 .Single(c => c.CommentID == commentDto.CommentID);
+
+            if (commentInDb == null)
+                return NotFound();
+
+            if(User.Identity.GetUserId() == commentInDb.CommenterID)
+            {
+                //make changes
+                ModifyCommentInDb(commentInDb, commentDto);
+                //save
+                _context.SaveChanges();
+                //success
+                return Ok(commentDto);
+            }
+
+            return Unauthorized();
         }
         #endregion
 
         #region DELETE
+        [HttpDelete]
+        [Route("api/comments/{commentID}")]
+        public IHttpActionResult DeleteComment(int commentID)
+        {
+            Comment commentInDb = _context.Comments
+                .Single(c => c.CommentID == commentID);
+
+            if (commentInDb == null)
+                return NotFound();
+
+            if(User.Identity.GetUserId() == commentInDb.CommenterID)
+            {
+                _context.Comments.Remove(commentInDb);
+                _context.SaveChanges();
+                return Ok();
+            }
+
+            return Unauthorized();
+        }
         #endregion
 
         #region Helpers
