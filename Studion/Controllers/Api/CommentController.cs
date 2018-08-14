@@ -42,7 +42,7 @@ namespace Studion.Controllers.Api
                 //extract id
                 commentDto.CommentID = commentInDb.CommentID;
 
-                return Created(new Uri(Request.RequestUri + "/" + commentDto.NoteID), commentDto)
+                return Created(new Uri(Request.RequestUri + "/" + commentDto.NoteID), commentDto);
             }
 
             return Unauthorized();

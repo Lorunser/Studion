@@ -8,8 +8,7 @@ namespace Studion.Controllers.Api
 {
     public class LevelController : ApiController
     {
-        //database initialisation
-        #region
+        #region Database
         private ApplicationDbContext _context;
 
         public LevelController()
@@ -24,6 +23,8 @@ namespace Studion.Controllers.Api
         #endregion
 
         #region RETRIEVE
+        [HttpGet]
+        [Route("api/levels")]
         public IHttpActionResult GetLevels()
         {
             IEnumerable<Level> levelsInDb = _context.Levels.ToList();

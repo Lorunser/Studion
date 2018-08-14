@@ -11,8 +11,7 @@ namespace Studion.Controllers.Api
 {
     public class ExamBoardController : ApiController
     {
-        //database initialisation
-        #region
+        #region Database
         private ApplicationDbContext _context;
 
         public ExamBoardController()
@@ -26,7 +25,7 @@ namespace Studion.Controllers.Api
         }
         #endregion
 
-        // RETRIEVE
+        #region RETRIEVE
         public IHttpActionResult GetExamBoards()
         {
             IEnumerable<ExamBoard> examBoardsInDb = _context.ExamBoards.ToList();
@@ -39,6 +38,7 @@ namespace Studion.Controllers.Api
 
             return Ok(examBoardsDto);
         }
+        #endregion
 
         // IMPLEMENT CUD manually through database admin
     }

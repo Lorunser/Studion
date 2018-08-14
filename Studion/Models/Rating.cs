@@ -22,6 +22,7 @@ namespace Studion.Models
         public ApplicationUser rater { get; set; }
 
         [Required]
+        [Range(1,5)]
         public int Stars { get; set; }
     }
 }
