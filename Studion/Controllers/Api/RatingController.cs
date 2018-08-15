@@ -24,22 +24,20 @@ namespace Studion.Controllers.Api
         #region CREATE
         [HttpPost]
         [Route("api/ratings")]
+        [Authorize]
         public IHttpActionResult CreateRating(RatingDto ratingDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
             var userID = User.Identity.GetUserId();
-            if (userID == null) // not logged in
-                return Unauthorized();
-
-
             Rating ratingInDb = _context.Ratings
                 .Single(r => r.RaterID == userID && r.NoteID == ratingDto.NoteID);
 
-            if (ratingInDb == null) // not made yet
+            // rating not made yet
+            if (ratingInDb == null) 
             {
-                ModifyRatingInDb(ratingInDb, ratingDto);
+                ratingInDb = ToNewRatingInDb(ratingDto);
 
                 _context.Ratings.Add(ratingInDb);
                 _context.SaveChanges();
@@ -50,7 +48,7 @@ namespace Studion.Controllers.Api
             //rating already exists >> modify
             if(ratingInDb.RaterID == userID)
             {
-                ratingInDb.Stars = ratingDto.Stars;
+                ModifyRatingInDb(ratingInDb, ratingDto);
                 _context.SaveChanges();
 
                 return Ok(ratingDto);
@@ -85,15 +83,13 @@ namespace Studion.Controllers.Api
         #region UPDATE
         [HttpPut]
         [Route("api/ratings")]
+        [Authorize]
         public IHttpActionResult UpdateRating(RatingDto ratingDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
             var userID = User.Identity.GetUserId();
-            if (userID == null) // not logged in
-                return Unauthorized();
-
 
             Rating ratingInDb = _context.Ratings
                 .Single(r => r.RaterID == userID && r.NoteID == ratingDto.NoteID);

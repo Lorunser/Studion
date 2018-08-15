@@ -26,27 +26,22 @@ namespace Studion.Controllers.Api
         #region CREATE
         [HttpPost]
         [Route("api/comments")]
+        [Authorize]
         public IHttpActionResult CreateComment(CommentDto commentDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            if (User.Identity.IsAuthenticated)
-            {
-                Comment commentInDb = ToNewCommentInDb(commentDto);
+            Comment commentInDb = ToNewCommentInDb(commentDto);
 
-                //save to db
-                _context.Comments.Add(commentInDb);
-                _context.SaveChanges();
+            //save to db
+            _context.Comments.Add(commentInDb);
+            _context.SaveChanges();
 
-                //extract id
-                commentDto.CommentID = commentInDb.CommentID;
+            //extract id
+            commentDto.CommentID = commentInDb.CommentID;
 
-                return Created(new Uri(Request.RequestUri + "/" + commentDto.NoteID), commentDto);
-            }
-
-            return Unauthorized();
-
+            return Created(new Uri(Request.RequestUri + "/" + commentDto.NoteID), commentDto);
         }
         #endregion
 
@@ -107,7 +102,7 @@ namespace Studion.Controllers.Api
             if (commentInDb == null)
                 return NotFound();
 
-            if(User.Identity.GetUserId() == commentInDb.CommenterID)
+            if (User.Identity.GetUserId() == commentInDb.CommenterID || User.IsInRole(RoleNames.Admin))
             {
                 _context.Comments.Remove(commentInDb);
                 _context.SaveChanges();

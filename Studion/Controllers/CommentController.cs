@@ -12,8 +12,7 @@ namespace Studion.Controllers
 {
     public class CommentController : Controller
     {
-        //database initialisation
-        #region
+        #region Database
         private ApplicationDbContext _context;
 
         public CommentController()
@@ -27,8 +26,9 @@ namespace Studion.Controllers
         }
         #endregion
 
-        // GET: Comment/Save
+        // REMEMBER TO REWORK TO DELETE
         [HttpPost]
+        [Authorize]
         public ActionResult Save(NotesDisplayViewModel ndvm)
         {
             int noteID = ndvm.Note.NoteID;

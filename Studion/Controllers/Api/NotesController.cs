@@ -29,33 +29,29 @@ namespace Studion.Controllers.Api
         #region CREATE
         [HttpPost]
         [Route("api/notes")]
+        [Authorize]
         public IHttpActionResult CreateNote(NoteDto noteDto, HttpPostedFileBase upload)
         {
             //check valid
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            if(User.Identity.IsAuthenticated)
-            {
-                //create note object
-                var noteInDb = ToNewNoteInDb(noteDto);
+            //create note object
+            var noteInDb = ToNewNoteInDb(noteDto);
 
-                //save to database
-                _context.Notes.Add(noteInDb);
-                _context.SaveChanges();
+            //save to database
+            _context.Notes.Add(noteInDb);
+            _context.SaveChanges();
 
-                //extract NoteID
-                noteDto.NoteID = noteInDb.NoteID;
+            //extract NoteID
+            noteDto.NoteID = noteInDb.NoteID;
 
-                //save file to server
-                string path = GetPath(noteInDb.NoteID);
-                upload.SaveAs(path);
+            //save file to server
+            string path = GetPath(noteInDb.NoteID);
+            upload.SaveAs(path);
 
-                //return ok
-                return Created(new Uri(Request.RequestUri + "/" + noteDto.NoteID), noteDto);
-            }
-
-            return Unauthorized();
+            //return ok
+            return Created(new Uri(Request.RequestUri + "/" + noteDto.NoteID), noteDto);
         }
         #endregion
 
@@ -160,8 +156,7 @@ namespace Studion.Controllers.Api
             var noteInDb = _context.Notes.Single(n => n.NoteID == noteID);
 
             // access allowed
-            var identity = User.Identity;
-            if(identity.GetUserId() == noteInDb.AuthorID) // also allow for admin
+            if(User.Identity.GetUserId() == noteInDb.AuthorID || User.IsInRole(RoleNames.Admin))
             {
                 if (noteInDb == null)
                     NotFound();

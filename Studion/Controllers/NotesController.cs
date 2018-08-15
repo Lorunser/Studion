@@ -14,8 +14,7 @@ namespace Studion.Controllers
 {
     public class NotesController : Controller
     {
-        //database initialisation
-        #region
+        #region Database
         private ApplicationDbContext _context;
 
         public NotesController()
@@ -27,7 +26,7 @@ namespace Studion.Controllers
         {
             _context.Dispose();
         }
-        #endregion
+        #endregion 
 
         // GET: Notes/Display/{NoteID}
         [Route("Notes/Display/{NoteID}")]
@@ -100,50 +99,41 @@ namespace Studion.Controllers
 
         // GET: Notes/Upload
         // first time called
+        [Authorize]
         public ActionResult Upload()
         {
-            // code to prevent unlogged user uploading a note
-            if(Request.IsAuthenticated)
-            {
-                var viewModel = new NoteFormViewModel(_context);
-                return View(viewModel);
-            }
-
-            var currentUrl = Request.Url.AbsolutePath;
-            return RedirectToAction("Login", "Account", new { returnUrl = currentUrl});
+            var viewModel = new NoteFormViewModel(_context);
+            return View(viewModel);
         }
 
         //on form submit
         [HttpPost]
+        [Authorize]
         public ActionResult Upload(NoteFormViewModel nfvm, HttpPostedFileBase upload = null)
         {
-            if (Request.IsAuthenticated)
-            {
-                if (ModelState.IsValid)
-                {
-                    if (upload.ContentLength < 20000000) // ContentLength returns integer number of bytes >> fail if exceeded 20 million
-                    {
-                        string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
-                        nfvm.SaveToDatabase(_context, User.Identity, upload, pathToSubDir);
-                        return RedirectToAction("Display", "Notes", new { NoteID = nfvm.Note.NoteID });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Exceeded maximum content length");
-                    }
-                }
 
-                nfvm.GenLists(_context); // must be called to repopulate lists
-                return View(nfvm);
+            if (ModelState.IsValid)
+            {
+                if (upload.ContentLength < 20000000) // ContentLength returns integer number of bytes >> fail if exceeded 20 million
+                {
+                    string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
+                    nfvm.SaveToDatabase(_context, User.Identity, upload, pathToSubDir);
+                    return RedirectToAction("Display", "Notes", new { NoteID = nfvm.Note.NoteID });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Exceeded maximum content length");
+                }
             }
 
-            var currentUrl = Request.Url.AbsolutePath;
-            return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
+            nfvm.GenLists(_context); // must be called to repopulate lists
+            return View(nfvm);
         }
 
 
         // GET: Notes/Edit/{NoteID}
         [Route("Notes/Edit/{NoteID}")]
+        [Authorize]
         public ActionResult Edit(int NoteID)
         {
             var note = _context.Notes.Single(n => n.NoteID == NoteID);
