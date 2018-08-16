@@ -12,8 +12,7 @@ namespace Studion.Controllers
 {
     public class RatingController : Controller
     {
-        //database initialisation
-        #region
+        #region Database
         private ApplicationDbContext _context;
 
         public RatingController()
@@ -29,36 +28,32 @@ namespace Studion.Controllers
 
         //save rating
         [HttpPost]
+        [Authorize]
         public ActionResult Save(NotesDisplayViewModel ndvm)
         {
             var noteID = ndvm.Note.NoteID;
 
-            if (Request.IsAuthenticated)
+            int stars = ndvm.Rating;
+            var raterID = User.Identity.GetUserId();
+
+            var rating = _context.Ratings.Single(r => r.NoteID == noteID && r.RaterID == raterID);
+
+            if(rating == null) //rating has not been made
             {
-                int stars = ndvm.Rating;
-                var raterID = User.Identity.GetUserId();
+                rating = new Rating();
+                rating.NoteID = noteID;
+                rating.RaterID = raterID;
 
-                var ratingList = _context.Ratings.Where(r => r.NoteID == noteID && r.RaterID == raterID).ToList();
-
-                if(ratingList.Count == 0) //rating has not been made
-                {
-                    var newRating = new Rating();
-                    newRating.NoteID = noteID;
-                    newRating.RaterID = raterID;
-
-                    newRating.Stars = stars;
-                    _context.Ratings.Add(newRating);
-                }
-
-                else // rating already made >> modify
-                {
-                    var oldRating = ratingList.First();
-
-                    oldRating.Stars = stars;
-                }
-
-                _context.SaveChanges();
+                rating.Stars = stars;
+                _context.Ratings.Add(rating);
             }
+
+            else // rating already made >> modify
+            {
+                rating.Stars = stars;
+            }
+
+            _context.SaveChanges();
 
             return RedirectToAction("Display", "Notes", new { NoteID = noteID});
         }

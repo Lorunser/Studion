@@ -1,29 +1,22 @@
-﻿@model Studion.ViewModels.NotesDisplayViewModel
+﻿@{ 
+    //model is noteID
+}
 
-<ul class="list-group">
-        @{
-            if (Request.IsAuthenticated) // true if user is logged in
-            {
-                using (Html.BeginForm("Save", "Comment", null, FormMethod.Post, new { enctype = "multipart/form-data", @class="form-inline" }))
-                {
-                    @Html.AntiForgeryToken();
-                    @Html.HiddenFor(n => n.Note.NoteID)
-
+<div class="row-container">
+    @if (Request.IsAuthenticated) // true if user is logged in
+    {
+        <form class="form-inline" id="commentForm">
+            <ul class="list-group">
                 <li class="list-group-item">
-                    <div class="col-md-offset-4">
-                        @Html.TextBoxFor(n => n.CommentMessage, new { @class = "form-control", style = "width: 100%;" })
-                        @Html.ValidationMessageFor(n => n.CommentMessage)
-
-                        <button type="submit" class="btn btn-primary">Write Comment</button>
-                    </div>                  
+                    <input type="text" class="form-control" id="commentMessage" />
+                    <button type="submit" class="btn btn-primary">Write comment</button>
                 </li>
-                }
-            }
+            </ul>
+        </form>
+    }
 
-            else
-            {
-                <p>You must be logged in to comment</p>
-                <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in</a>
-            }
-        }
-</ul>
+    else
+    {
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to comment</a>
+    }
+</div>

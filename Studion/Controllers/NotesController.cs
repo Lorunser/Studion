@@ -157,38 +157,5 @@ namespace Studion.Controllers
 
             return HttpNotFound(); // forbidden page would be better
         }
-
-        // GET: Notes/Delete/{NoteID}
-        [Route("Notes/Delete/{NoteID}")]
-        public ActionResult Delete(int NoteID)
-        {
-            return View(NoteID);
-        }
-
-        [HttpPost]
-        public ActionResult ConfirmDelete(int NoteID)
-        {
-            var note = _context.Notes.Single(n => n.NoteID == NoteID);
-
-            if (note == null)
-            {
-                return HttpNotFound();
-            }
-
-            var identity = User.Identity;
-            if (identity.GetUserId() == note.AuthorID) // add additional or statement for if admin
-            {
-                //delete file
-                string pathToSubDir = ControllerContext.HttpContext.Server.MapPath("~/Documents/");
-                string path = pathToSubDir + note.NoteID + ".pdf";
-                System.IO.File.Delete(path);
-
-                //remove from database >> cascade delete other relations
-                _context.Notes.Remove(note);
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }

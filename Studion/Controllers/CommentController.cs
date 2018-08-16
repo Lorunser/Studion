@@ -33,21 +33,13 @@ namespace Studion.Controllers
         {
             int noteID = ndvm.Note.NoteID;
 
-            // code to prevent unlogged user saving a comment
-            var currentUrl = this.Url.Action("Display", "Notes", new { NoteID = ndvm.Note.NoteID }, this.Request.Url.Scheme);
-            var userID = User.Identity.GetUserId();
-            if (userID == null)
-            {
-                return RedirectToAction("Login", "Account", new { returnUrl = currentUrl });
-            }
-
             //validation
             if (ModelState.IsValid == false)
             {
                 return RedirectToAction("Display", "Notes", new { NoteID = noteID });
             }
 
-            ndvm.SaveToDatabase(_context, userID);
+            ndvm.SaveToDatabase(_context, User.Identity.GetUserId());
             return RedirectToAction("Display", "Notes", new { NoteID = noteID });
         }
     }

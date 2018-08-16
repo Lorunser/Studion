@@ -4,37 +4,3 @@
         <li class="list-group-item active" id="header">Comments</li>
     </ul>
 </div>
-
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: 'api/comments/@Model',
-                dataType: 'json',
-                method: 'GET',
-
-                success: function(data){
-                    var commentListGroup = $("#commentListGroup");
-                    var i = 0;
-
-                    for (var comment in data){
-                        i++;
-                        commentListGroup.append(
-                            "<li class='list-group-item'>\
-                                <p>\
-                                    <a href='/users/" + comment.commenterID + "'>" + comment.commenterUsername + "</a>"
-                                    + comment.commentMessage +
-                                    "<small>" + moment(comment.postTime).format("MMMM YYYY") + "</small>\
-                                </p>\
-                            </li>"
-                            );
-                    }
-
-                    var header = $("#header");
-                    header.val("Comments (" + i + ")");
-                }
-            });
-        })
-    </script>
-}

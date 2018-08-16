@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="jumbotron">
-    <h2>@Model.Note.Title</h2>
+    <h2 id="title" data-note-id="@Model.Note.NoteID">@Model.Note.Title</h2>
     <div class="row">
         <table class="table">
             <tr>
@@ -32,16 +32,13 @@
     <div class="row">
         @Html.Partial("~/Views/Rating/_RatingPartial.cshtml");
     </div>
-    @if (User.Identity.GetUserId() == Model.Note.AuthorID) //add logic for admin account
+    @if (User.Identity.GetUserId() == Model.Note.AuthorID || User.IsInRole(Studion.Models.RoleNames.Admin))
     {
         <div class="row">
             <div class="col-md-2 col-md-offset-2">
                 <a class="btn btn-primary center-block" href="/Notes/Edit/@(Model.Note.NoteID)">Edit</a>
             </div>
             <div class="col-md-2 col-md-offset-4">
-                <!--
-                <a class="btn btn-danger center-block" href="/Notes/Delete/AT_SIGN(Model.Note.NoteID)">Delete</a>
-                -->
                 <button id="delete-button" data-note-id="@Model.Note.NoteID" class="btn btn-danger center-block">Delete</button>
             </div>
         </div>
@@ -55,31 +52,33 @@
     @Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", Model.Note.NoteID);
 
     //comment list
-    @Html.Partial("~/Views/Comment/_CommentPartial.cshtml", Model.Note.NoteID);
+    <div class="row container">
+        <br />
+        <ul class="list-group" id="commentListGroup">
+            <li class="list-group-item active" id="header">Comments</li>
+        </ul>
+    </div>
+
 
     //submit comment
-    @Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model);
+    <div class="row-container">
+        @if (Request.IsAuthenticated) // true if user is logged in
+        {
+            <form class="form-inline" id="commentForm">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="text" class="form-control" id="commentMessage" />
+                        <button type="submit" class="btn btn-primary">Write comment</button>
+                    </li>
+                </ul>
+            </form>
+        }
+
+        else
+        {
+            <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to comment</a>
+        }
+    </div>
 }
 
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-            $("#delete-button").on("click", function () {
-                var button = $(this);
-
-                bootbox.confirm("Are you sure you want to delete this set of notes?", function (result) {
-                    if (result) {
-                        $.ajax({
-                            url: "/api/notes/" + button.attr("data-note-id"),
-                            method: "DELETE",
-                            success: function () {
-                                window.location = "/home";
-                            }
-                        });
-                    }
-                })
-            });
-        });
-    </script>    
-}
+<script src="~/Scripts/Notes/display.js"></script>
