@@ -86,7 +86,7 @@ namespace Studion.Controllers.Api
         {
             //call to database
             var notesInDb = _context.Notes
-                .Include(n => n.author.UserName)
+                .Include(n => n.author)
                 .Include(n => n.subject)
                 .Include(n => n.level)
                 .Include(n => n.examBoard)
@@ -242,7 +242,7 @@ namespace Studion.Controllers.Api
         private Note GetFullNoteFromDb(int noteID)
         {
             var note = _context.Notes
-                .Include(n => n.author.UserName)
+                .Include(n => n.author)
                 .Include(n => n.subject)
                 .Include(n => n.level)
                 .Include(n => n.examBoard)

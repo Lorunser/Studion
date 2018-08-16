@@ -1,32 +1,40 @@
-﻿@model IList<Studion.Models.Comment>
-
-<!--Finalised-->
-<div class="row container">
+﻿<div class="row container">
     <br />
-    <ul class="list-group">
-        <li class="list-group-item active">Comments (@(Model.Count()))</li>
-        @foreach (var comment in Model)
-        {
-            <li class="list-group-item">
-                <p>
-                    <b>
-                        @(Html.ActionLink(comment.commenter.UserName, "ProfilePage", "Users", new { UserID = comment.commenter.Id }, null))
-                    </b>
-
-                    @comment.CommentMessage
-
-                    <small>
-                        @comment.PostTime.ToShortDateString()
-                    </small>
-                </p>
-            </li>
-        }
-
-        @if (Model.Count() == 0)
-        {
-            <li class="list-group-item">
-                No comments made
-            </li>
-        }
+    <ul class="list-group" id="commentListGroup">
+        <li class="list-group-item active" id="header">Comments</li>
     </ul>
 </div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'api/comments/@Model',
+                dataType: 'json',
+                method: 'GET',
+
+                success: function(data){
+                    var commentListGroup = $("#commentListGroup");
+                    var i = 0;
+
+                    for (var comment in data){
+                        i++;
+                        commentListGroup.append(
+                            "<li class='list-group-item'>\
+                                <p>\
+                                    <a href='/users/" + comment.commenterID + "'>" + comment.commenterUsername + "</a>"
+                                    + comment.commentMessage +
+                                    "<small>" + moment(comment.postTime).format("MMMM YYYY") + "</small>\
+                                </p>\
+                            </li>"
+                            );
+                    }
+
+                    var header = $("#header");
+                    header.val("Comments (" + i + ")");
+                }
+            });
+        })
+    </script>
+}

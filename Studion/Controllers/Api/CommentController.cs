@@ -52,7 +52,7 @@ namespace Studion.Controllers.Api
         {
             //extract all comments for said note
             IEnumerable<Comment> commentsInDb = _context.Comments
-                .Include(c => c.commenter.UserName)
+                .Include(c => c.commenter)
                 .Where(c => c.NoteID == noteID)
                 .ToList();
 

@@ -55,7 +55,7 @@
     @Html.Partial("~/Views/Notes/_DocumentViewerPartial.cshtml", Model.Note.NoteID);
 
     //comment list
-    @Html.Partial("~/Views/Comment/_CommentPartial.cshtml", Model.Note.comments);
+    @Html.Partial("~/Views/Comment/_CommentPartial.cshtml", Model.Note.NoteID);
 
     //submit comment
     @Html.Partial("~/Views/Comment/_CommentFormPartial.cshtml", Model);
