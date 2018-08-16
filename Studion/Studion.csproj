@@ -653,7 +653,6 @@
     <Content Include="Views\Shared\_NoteTable.cshtml" />
     <Content Include="Views\Rating\_RatingPartial.cshtml" />
     <Content Include="Views\Comment\_CommentFormPartial.cshtml" />
-    <Content Include="Views\Notes\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

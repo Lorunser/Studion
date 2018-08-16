@@ -3,10 +3,8 @@
 <div class="row">
     <!--Average rating-->
     <div class="col-md-4">
-        <button class="btn btn-primary center-block" disabled>Average rating</button>
-
         <div class="row col-md-offset-1">
-            <input id="display-rating" value="@Model.Note.GetAvRating()" />
+            <input id="display-rating"" />
         </div>
     </div>
 
@@ -33,20 +31,7 @@
     <div class="col-md-4">
         @if (Request.IsAuthenticated)
         {
-            using (Html.BeginForm("Save", "Rating", null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-inline" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(n => n.Note.NoteID)
-
-                <button type="submit" class="btn btn-primary center-block">Submit your rating</button>
-
-                <div class="form-group row col-md-offset-1">
-                    @Html.TextBoxFor(n => n.Rating, new
-               {
-                   id = "user-rating"
-               })
-                </div>
-            }
+            <input id="user-rating" />
         }
         else
         {
@@ -62,18 +47,42 @@
 </div>
 
 <script>
-    $('#display-rating').rating({
+    //retrieve controls
+    var displayRating = $("#display-rating");
+    var userRating = $("#user-rating");
+
+    //instantiate
+    displayRating.rating({
         displayOnly: true,
         min: '0',
         max: '5',
-        value: '@Model.Note.GetAvRating()'
+        value: '@Model.Note.GetAvRating()',
+        defaultCaption: 'Average rating'
     });
 
-    $('#user-rating').rating({
-        min: '0',
-        max: '5',
-        step: '1',
-        showCaption: false,
-        showClear: false
-    });
+    if (userRating.length == 1)
+    {
+        userRating.rating({
+            min: '0',
+            max: '5',
+            step: '1',
+            defaultCaption: 'Your rating',
+            showClear: false
+        });
+
+        userRating.on("rating:change", function (event, value) {
+            //send query to api
+            $.ajax({
+                url: "api/ratings",
+                method: "POST",
+                data: {
+                    noteID: "@Model.Note.NoteID",
+                    stars: value
+                },
+                success: function () {
+                    alert("Successfully rated");
+                }
+            });
+        });
+    }
 </script>
