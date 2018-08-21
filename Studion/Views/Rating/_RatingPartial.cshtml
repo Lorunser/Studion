@@ -53,11 +53,13 @@
 
     //instantiate
     displayRating.rating({
-        displayOnly: true,
         min: '0',
         max: '5',
         value: '@Model.Note.GetAvRating()',
-        defaultCaption: 'Average rating'
+        disabled: true,
+        readonly: true,
+        size: 'sm',
+        showClear: false
     });
 
     if (userRating.length == 1)
@@ -67,22 +69,30 @@
             max: '5',
             step: '1',
             defaultCaption: 'Your rating',
-            showClear: false
+            showClear: false,
+            size: 'sm'
         });
 
         userRating.on("rating:change", function (event, value) {
-            //send query to api
-            $.ajax({
-                url: "api/ratings",
-                method: "POST",
-                data: {
-                    noteID: "@Model.Note.NoteID",
-                    stars: value
-                },
-                success: function () {
-                    alert("Successfully rated");
-                }
-            });
+            if (value != 0) {
+                //send query to api
+                $.ajax({
+                    url: "api/ratings",
+                    method: "POST",
+                    data: {
+                        'ratingDto': {
+                            'noteID': '@(Model.Note.NoteID)',
+                            'stars': value
+                        }
+                    },
+                    success: function () {
+                        alert("Successfully rated");
+                    }
+                });
+
+                alert(value);
+
+            }
         });
     }
 </script>
