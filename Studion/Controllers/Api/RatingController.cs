@@ -32,7 +32,7 @@ namespace Studion.Controllers.Api
 
             var userID = User.Identity.GetUserId();
             Rating ratingInDb = _context.Ratings
-                .Single(r => r.RaterID == userID && r.NoteID == ratingDto.NoteID);
+                .SingleOrDefault(r => r.RaterID == userID && r.NoteID == ratingDto.NoteID);
 
             // rating not made yet
             if (ratingInDb == null) 
@@ -70,7 +70,7 @@ namespace Studion.Controllers.Api
                 return Unauthorized();
 
             Rating ratingInDb = _context.Ratings
-                .Single(r => r.NoteID == noteID && r.RaterID == raterID);
+                .SingleOrDefault(r => r.NoteID == noteID && r.RaterID == raterID);
 
             if (ratingInDb == null)
                 return NotFound();
@@ -92,7 +92,7 @@ namespace Studion.Controllers.Api
             var userID = User.Identity.GetUserId();
 
             Rating ratingInDb = _context.Ratings
-                .Single(r => r.RaterID == userID && r.NoteID == ratingDto.NoteID);
+                .SingleOrDefault(r => r.RaterID == userID && r.NoteID == ratingDto.NoteID);
 
             if (ratingInDb == null)
                 return NotFound();
@@ -115,7 +115,7 @@ namespace Studion.Controllers.Api
         public IHttpActionResult DeleteRating(int noteID, string raterID)
         {
             Rating ratingInDb = _context.Ratings
-                .Single(r =>r.NoteID == noteID && r.RaterID == raterID);
+                .SingleOrDefault(r =>r.NoteID == noteID && r.RaterID == raterID);
 
             if (ratingInDb == null)
                 return NotFound();

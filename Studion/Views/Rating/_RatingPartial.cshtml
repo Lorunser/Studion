@@ -51,6 +51,8 @@
     var displayRating = $("#display-rating");
     var userRating = $("#user-rating");
 
+    //get value from query
+
     //instantiate
     displayRating.rating({
         min: '0',
@@ -75,23 +77,22 @@
 
         userRating.on("rating:change", function (event, value) {
             if (value != 0) {
+                //set ratingDto
+                var ratingDto = {
+                    noteID: '@Model.Note.NoteID',
+                    stars: value
+                };
+
                 //send query to api
                 $.ajax({
-                    url: "api/ratings",
+                    url: "/api/ratings",
                     method: "POST",
-                    data: {
-                        'ratingDto': {
-                            'noteID': '@(Model.Note.NoteID)',
-                            'stars': value
-                        }
-                    },
+                    contentType: "application/json",
+                    data: JSON.stringify(ratingDto),
                     success: function () {
                         alert("Successfully rated");
                     }
                 });
-
-                alert(value);
-
             }
         });
     }
