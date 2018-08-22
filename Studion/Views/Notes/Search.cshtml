@@ -33,7 +33,7 @@
 <!--Display available notes-->
 
 <div class="row">
-    <table id="noteTable" class="display table table-striped" style="width:100%">
+    <table id="noteTable" class="display table table-striped">
         <thead>
             <tr>
                 <th>Title</th>
@@ -113,7 +113,13 @@
                         {
                             data: "averageRating"
                         }
-                    ]
+                    ],
+
+                    order: [[6, 'desc']],
+
+                    language: {
+                        emptyTable: "We've got nothing on that... Sorry"
+                    }
                 });
 
                 return false;

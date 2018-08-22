@@ -38,14 +38,17 @@ namespace Studion.ViewModels
 
         public void PopulateLists(ApplicationDbContext _context)
         {
-            SubjectList = _context.Subjects.ToList();
-            SubjectList.Sort();
+            SubjectList = _context.Subjects
+                .OrderBy(s => s.SubjectName)
+                .ToList();
 
-            ExamBoardList = _context.ExamBoards.ToList();
-            ExamBoardList.Sort();
+            ExamBoardList = _context.ExamBoards
+                .OrderBy(e => e.ExamBoardName)
+                .ToList();
 
-            LevelList = _context.Levels.ToList();
-            LevelList.Sort();
+            LevelList = _context.Levels
+                .OrderBy(l => l.LevelName)
+                .ToList();
         }
     }
 }
