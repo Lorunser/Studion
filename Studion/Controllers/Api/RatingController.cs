@@ -7,6 +7,7 @@ using System.Web.Http;
 using Studion.Models;
 using Studion.Dtos;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 
 namespace Studion.Controllers.Api
 {
@@ -77,6 +78,21 @@ namespace Studion.Controllers.Api
 
             RatingDto ratingDto = ToRatingDto(ratingInDb);
             return Ok(ratingDto);
+        }
+
+        [HttpGet]
+        [Route("api/ratings/{noteID}")]
+        public IHttpActionResult GetAverageRating(int noteID)
+        {
+            var note = _context.Notes
+                .Include(n => n.ratings)
+                .SingleOrDefault(n => n.NoteID == noteID);
+
+            if (note == null)
+                return NotFound();
+
+            double averageRating = note.GetAvRating();
+            return Ok(averageRating);
         }
         #endregion
 
