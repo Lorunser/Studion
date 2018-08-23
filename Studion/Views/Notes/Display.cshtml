@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="jumbotron">
-    <h2 id="title" data-note-id="@Model.Note.NoteID">@Model.Note.Title</h2>
+    <h2 id="title">@Model.Note.Title</h2>
     <div class="row">
         <table class="table">
             <tr>
@@ -39,7 +39,7 @@
                 <a class="btn btn-primary center-block" href="/Notes/Edit/@(Model.Note.NoteID)">Edit</a>
             </div>
             <div class="col-md-2 col-md-offset-4">
-                <button id="delete-button" data-note-id="@Model.Note.NoteID" class="btn btn-danger center-block">Delete</button>
+                <button id="delete-button" class="btn btn-danger center-block">Delete</button>
             </div>
         </div>
     }
@@ -81,4 +81,4 @@
     </div>
 }
 
-<script src="~/Scripts/Notes/display.js"></script>
+<script src="~/Scripts/Notes/display.js" id='scriptElement' noteID="@(Model.Note.NoteID)"></script>

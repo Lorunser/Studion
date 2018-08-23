@@ -1,18 +1,21 @@
 ﻿$(document).ready(function () {
-    deleteButton();
-    commentList();
-    commentForm();
+    var script = $('#scriptElement');
+    var noteID = script.attr('noteID');
+
+    deleteButton(noteID);
+    commentList(noteID);
+    commentForm(noteID);
 })
 
 //delete button
-function deleteButton(){
+function deleteButton(noteID){
     $("#delete-button").on("click", function () {
         var button = $(this);
 
         bootbox.confirm("Are you sure you want to delete this set of notes?", function (result) {
             if (result) {
                 $.ajax({
-                    url: "/api/notes/" + button.attr("data-note-id"),
+                    url: "/api/notes/" + noteID,
                     method: "DELETE",
                     success: function () {
                         window.location = "/home";
@@ -24,10 +27,10 @@ function deleteButton(){
 }
 
 //deal with rendering list of comments
-function commentList() {
+function commentList(noteID) {
     //deal with rendering list of comments
     $.ajax({
-        url: 'api/comments/@Model',
+        url: '/api/comments/' + noteID,
         dataType: 'json',
         method: 'GET',
 
@@ -55,7 +58,7 @@ function commentList() {
 }
 
 //deal with comment form
-function commentForm() {
+function commentForm(noteID) {
     // get comment form
     var commentForm = $("#commentForm");
 
@@ -69,15 +72,21 @@ function commentForm() {
             data = form.serialize();
             message = data[0].value;
 
+            var commentDto = {
+                noteID: noteID,
+                commentMessage: message
+            };
+
             $.ajax({
-                url: "api/comments",
+                url: "/api/comments",
                 method: "POST",
-                data: {
-                    noteID : $("#title").attr("data-note-id"),
-                    commentMessage : message
-                },
+                data: JSON.stringify(commentDto),
                 success: function () {
-                    location.reload(true);
+                    alert('success');
+                    //location.reload(true);
+                },
+                error: function (error) {
+                    alert(error);
                 }
             });
 
