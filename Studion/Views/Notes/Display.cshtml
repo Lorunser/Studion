@@ -67,8 +67,10 @@
             <form class="form-inline" id="commentForm">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <input type="text" class="form-control" name="commentMessage" />
-                        <button type="submit" class="btn btn-primary">Write comment</button>
+                        <div class="col-md-offset-4">
+                            <input type="text" class="form-control" name="commentMessage" />
+                            <button type="submit" class="btn btn-primary">Write comment</button>
+                        </div>                      
                     </li>
                 </ul>
             </form>
@@ -81,4 +83,4 @@
     </div>
 }
 
-<script src="~/Scripts/Notes/display.js" id='scriptElement' noteID="@(Model.Note.NoteID)"></script>
+<script src="~/Scripts/Notes/display.js" id='scriptElement' noteID="@(Model.Note.NoteID) username="@HttpContext.Current.User.Identity.Name"></script>

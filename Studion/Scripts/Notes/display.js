@@ -1,9 +1,10 @@
 ﻿$(document).ready(function () {
     var script = $('#scriptElement');
     var noteID = script.attr('noteID');
+    var username = script.attr('username');
 
     deleteButton(noteID);
-    commentList(noteID);
+    commentList(noteID, username);
     commentForm(noteID);
 })
 
@@ -27,7 +28,7 @@ function deleteButton(noteID){
 }
 
 //deal with rendering list of comments
-function commentList(noteID) {
+function commentList(noteID, username) {
     //deal with rendering list of comments
     $.ajax({
         url: '/api/comments/' + noteID,
@@ -36,23 +37,33 @@ function commentList(noteID) {
 
         success: function (data) {
             var commentListGroup = $("#commentListGroup");
-            var i = 0;
+            var length = data.length;
 
-            for (var comment in data) {
-                i++;
+            for (var i = 0; i < length; i++) {
+                var comment = data[i]
+
+                //check if can show delete
+                var deleteButton = "";
+                if (username == comment.commenterUsername) {
+                    deleteButton = "<a href='/comment/delete/";
+                }
+
+                //append comment
                 commentListGroup.append(
                     "<li class='list-group-item'>\
                                 <p>\
-                                    <a href='/users/" + comment.commenterID + "'>" + comment.commenterUsername + "</a>"
-                            + comment.commentMessage +
-                            "<small>" + moment(comment.postTime).format("MMMM YYYY") + "</small>\
-                                </p>\
+                                    <a href='/users/" + comment.commenterID + "'>" + comment.commenterUsername + "</a>" +
+                                    "<small>  " + moment(comment.postTime).format("MMMM YYYY") + "  </small>" +
+                                "</p>\
+                                <p>" +
+                                comment.commentMessage +
+                                "</p>\
                             </li>"
                     );
             }
 
             var header = $("#header");
-            header.val("Comments (" + i + ")");
+            header.text("Comments (" + length + ")");
         }
     });
 }
@@ -83,8 +94,19 @@ function commentForm(noteID) {
                 contentType: "application/json",
                 data: JSON.stringify(commentDto),
                 success: function () {
-                    alert('success');
-                    //location.reload(true);
+                    var commentListGroup = $('#commentListGroup')
+
+                    commentListGroup.append(
+                    "<li class='list-group-item'>\
+                                <p>\
+                                    <a> Your comment </a>" +
+                                    "<small>" + "  just now</small>" +
+                                "</p>\
+                                <p>" +
+                                commentDto.commentMessage +
+                                "</p>\
+                            </li>"
+                    );
                 },
                 error: function (error) {
                     alert('An error has occured');
