@@ -69,7 +69,7 @@ function commentForm(noteID) {
             event.preventDefault();
             var form = $(this);
 
-            data = form.serialize();
+            var data = form.serializeArray();
             message = data[0].value;
 
             var commentDto = {
@@ -80,13 +80,14 @@ function commentForm(noteID) {
             $.ajax({
                 url: "/api/comments",
                 method: "POST",
+                contentType: "application/json",
                 data: JSON.stringify(commentDto),
                 success: function () {
                     alert('success');
                     //location.reload(true);
                 },
                 error: function (error) {
-                    alert(error);
+                    alert('An error has occured');
                 }
             });
 
