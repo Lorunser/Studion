@@ -5,7 +5,7 @@
 
     deleteButton(noteID);
     commentList(noteID, username);
-    commentForm(noteID);
+    commentForm(noteID, username);
 })
 
 //delete button
@@ -45,7 +45,7 @@ function commentList(noteID, username) {
                 //check if can show delete
                 var deleteButton = "";
                 if (username == comment.commenterUsername) {
-                    deleteButton = "<a href='/comment/delete/";
+                    deleteButton = "<button class='btn btn-danger js-comment-delete' commentID='" + comment.commentID + "'>Delete</button>";
                 }
 
                 //append comment
@@ -55,21 +55,27 @@ function commentList(noteID, username) {
                                     <a href='/users/" + comment.commenterID + "'>" + comment.commenterUsername + "</a>" +
                                     "<small>  " + moment(comment.postTime).format("MMMM YYYY") + "  </small>" +
                                 "</p>\
-                                <p>" +
+                                <div class='row'>\
+                                <p class='col-md-11'>" +
                                 comment.commentMessage +
-                                "</p>\
+                                "</p>" +
+                                deleteButton +
+                                "</div>\
                             </li>"
                     );
             }
 
             var header = $("#header");
             header.text("Comments (" + length + ")");
+
+            //register event listeners
+            commentDeleteButtons();
         }
     });
 }
 
 //deal with comment form
-function commentForm(noteID) {
+function commentForm(noteID, username) {
     // get comment form
     var commentForm = $("#commentForm");
 
@@ -93,27 +99,60 @@ function commentForm(noteID) {
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(commentDto),
-                success: function () {
+                success: function (data) {
                     var commentListGroup = $('#commentListGroup')
+                    var commentID = data.commentID;
+                    var deleteButton = "<button class='btn btn-danger js-comment-delete' commentID='" + commentID + "'>Delete</button>";
 
                     commentListGroup.append(
                     "<li class='list-group-item'>\
                                 <p>\
-                                    <a> Your comment </a>" +
+                                    <a>" + username + " </a>" +
                                     "<small>" + "  just now</small>" +
                                 "</p>\
-                                <p>" +
+                                <div class='row'>\
+                                <p class='col-md-11'>" +
                                 commentDto.commentMessage +
-                                "</p>\
+                                "</p>" +
+                                deleteButton +
+                                "</div>\
                             </li>"
                     );
+
+                    form.trigger('reset');
+                    commentDeleteButtons();
                 },
                 error: function (error) {
-                    alert('An error has occured');
+                    bootbox.alert('An error has occured');
                 }
             });
 
             return false;
         });
     }   
+}
+
+//register click events for comment delete
+function commentDeleteButtons() {
+    //register click events
+    $('.js-comment-delete').on('click', function () {
+        var button = $(this);
+        var commentID = button.attr('commentID');
+
+        bootbox.confirm("Are you sure you want to delete this comment", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/api/comments/" + commentID,
+                    method: "DELETE",
+                    success: function () {
+                        //button.closest('li').remove(); // not working
+                        location.reload();
+                    },
+                    error: function () {
+                        bootbox.alert('An error has occured');
+                    }
+                });
+            }
+        })
+    });
 }

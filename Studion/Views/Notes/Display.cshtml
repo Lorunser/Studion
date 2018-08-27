@@ -59,18 +59,27 @@
         </ul>
     </div>
 
-
     //submit comment
     <div class="row-container">
         @if (Request.IsAuthenticated) // true if user is logged in
         {
-            <form class="form-inline" id="commentForm">
+            <form id="commentForm">
                 <ul class="list-group">
                     <li class="list-group-item">
+                        <!--textarea class="form-control" name="commentMessage" maxlength="140" rows="3" placeholder="Write a comment..." required-->
+                        <div class="form-group col-md-10">
+                            <input type="text" class="form-control center-block" 
+                                   name="commentMessage"
+                                   maxlength="140" width="100"
+                                   placeholder="Write a comment..."
+                                   required />
+                        </div>
+                        <!--
                         <div class="col-md-offset-4">
-                            <input type="text" class="form-control" name="commentMessage" />
+                            <input type="text" class="form-control" name="commentMessage" required maxlength="140" />
                             <button type="submit" class="btn btn-primary">Write comment</button>
-                        </div>                      
+                        </div>
+                            -->
                     </li>
                 </ul>
             </form>
@@ -78,9 +87,9 @@
 
         else
         {
-            <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">Log in to comment</a>
+            <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath })">Log in to comment</a>
         }
     </div>
 }
 
-<script src="~/Scripts/Notes/display.js" id='scriptElement' noteID="@(Model.Note.NoteID) username="@HttpContext.Current.User.Identity.Name"></script>
+<script src="~/Scripts/Notes/display.js" id='scriptElement' noteID="@(Model.Note.NoteID)" username="@HttpContext.Current.User.Identity.Name"></script>
