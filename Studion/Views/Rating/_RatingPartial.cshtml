@@ -3,19 +3,17 @@
 
 <div class="row">
     <!--Average rating-->
-    <div class="col-md-4">
-        <div class="row col-md-offset-1">
-            <input id="display-rating"" />
-        </div>
+    <div class="col-md-5">
+            <input id="display-rating" />
     </div>
 
     <!--Download button-->
-    <div class="col-md-4">
+    <div class="col-md-2">
         @if (Request.IsAuthenticated)
         {
             using (Html.BeginForm("Download", "Notes", new { NoteID = Model.Note.NoteID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                <button type="submit" class="btn btn-primary center-block btn-lg">Download</button>
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Download</button>
             }
         }
 
@@ -29,20 +27,18 @@
 
 
     <!--Your rating-->
-    <div class="col-md-4">
+    <div class="col-md-5">
         @if (Request.IsAuthenticated)
         {
-            <input id="user-rating" />
+            <div class="col-md-offset-2">
+                <input id="user-rating" />
+            </div>
         }
         else
         {
             <form action="@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath})">
                 <button class="btn btn-primary center-block btn-lg">Log in to rate</button>
             </form>
-
-            <div class="row col-md-offset-1">
-                <input id="user-rating" />
-            </div>
         }
     </div>
 </div>
@@ -60,7 +56,12 @@
         disabled: true,
         readonly: true,
         size: 'sm',
-        showClear: false
+        showClear: false,
+        starCaptions: function (val) {
+            //var rounded = Math.round(val * 100) / 100;
+            //return rounded + " Stars";
+            return 'Avg. rating';
+        }
     });
 
     //get value from ajax
@@ -83,9 +84,12 @@
             min: '0',
             max: '5',
             step: '1',
-            defaultCaption: 'Your rating',
+            clearCaption: 'Please rate',
             showClear: false,
-            size: 'sm'
+            size: 'sm',
+            starCaptions: function (val) {
+                return 'Your rating';
+            }
         });
 
         //set to correct value of stars

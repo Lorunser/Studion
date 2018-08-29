@@ -30,16 +30,17 @@
         </table>
     </div>
     <div class="row">
-        @Html.Partial("~/Views/Rating/_RatingPartial.cshtml");
+        @Html.Partial("~/Views/Rating/_RatingPartial.cshtml")
     </div>
     @if (User.Identity.GetUserId() == Model.Note.AuthorID || User.IsInRole(Studion.Models.RoleNames.Admin))
     {
         <div class="row">
+            <br />
             <div class="col-md-2 col-md-offset-2">
-                <a class="btn btn-primary center-block" href="/Notes/Edit/@(Model.Note.NoteID)">Edit</a>
+                <a class="btn btn-primary btn-block" href="/Notes/Edit/@(Model.Note.NoteID)">Edit</a>
             </div>
             <div class="col-md-2 col-md-offset-4">
-                <button id="delete-button" class="btn btn-danger center-block">Delete</button>
+                <button id="delete-button" class="btn btn-primary btn-block">Delete</button>
             </div>
         </div>
     }
