@@ -23,6 +23,11 @@ textarea {
     max-width: 280px;
 }
 
+/*custom addition*/
+.full-width{
+    max-width: none;
+}
+
 /* Addition */
 .field-validation-error {
     color: red;

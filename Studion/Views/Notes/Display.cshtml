@@ -60,27 +60,23 @@
     </div>
 
     //submit comment
-    <div class="row-container">
+    <div class="row container">
         @if (Request.IsAuthenticated) // true if user is logged in
         {
-            <form class="form-inline" id="commentForm">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <!--
-                        <div class="form-group col-md-10">
-                            <input type="text" class="form-control center-block"
-                                   name="commentMessage"
-                                   maxlength="140" width="100"
-                                   placeholder="Write a comment..."
-                                   required />
-                        </div>
-                        -->
-                        <div class="col-md-offset-4">
-                            <input type="text" class="form-control" name="commentMessage" maxlength="140" placeholder="Write a comment..." required />
-                            <button type="submit" class="btn btn-primary">Write comment</button>
-                        </div>
-                    </li>
-                </ul>
+            <form id="commentForm">
+                <div class="row">
+                    <div class="form-group col-md-offset-2 col-md-8">
+                        <textarea class="form-control full-width"
+                                  name="commentMessage" maxlength="140" rows="1"
+                                  placeholder="Write a comment..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary">Submit comment</button>
+                    </div>
+                </div>
             </form>
         }
 
